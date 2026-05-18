@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Conceptos de Bienes a Depreciar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-white);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+        }
+
+        /* Alineaciones específicas según la naturaleza de los datos */
+        td:first-child, th:first-child {
+            text-align: left;
+        }
+        
+        td:nth-child(2), td:nth-child(3),
+        th:nth-child(2), th:nth-child(3) {
+            text-align: center;
+        }
+
+        /* Estilos del encabezado */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            border: 1px solid var(--primary-color);
+            vertical-align: middle;
+        }
+
+        /* Filas intercaladas */
+        tbody tr:nth-child(even) {
+            background-color: var(--bg-light);
+        }
+
+        /* --- ANIMACIONES CSS --- */
+
+        /* Animación de entrada al cargar la página */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Aplicar la animación base a las filas */
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        /* Retraso escalonado dinámico para las 16 filas en cascada */
+        tbody tr:nth-child(1)  { animation-delay: 0.05s; }
+        tbody tr:nth-child(2)  { animation-delay: 0.10s; }
+        tbody tr:nth-child(3)  { animation-delay: 0.15s; }
+        tbody tr:nth-child(4)  { animation-delay: 0.20s; }
+        tbody tr:nth-child(5)  { animation-delay: 0.25s; }
+        tbody tr:nth-child(6)  { animation-delay: 0.30s; }
+        tbody tr:nth-child(7)  { animation-delay: 0.35s; }
+        tbody tr:nth-child(8)  { animation-delay: 0.40s; }
+        tbody tr:nth-child(9)  { animation-delay: 0.45s; }
+        tbody tr:nth-child(10) { animation-delay: 0.50s; }
+        tbody tr:nth-child(11) { animation-delay: 0.55s; }
+        tbody tr:nth-child(12) { animation-delay: 0.60s; }
+        tbody tr:nth-child(13) { animation-delay: 0.65s; }
+        tbody tr:nth-child(14) { animation-delay: 0.70s; }
+        tbody tr:nth-child(15) { animation-delay: 0.75s; }
+        tbody tr:nth-child(16) { animation-delay: 0.80s; }
+
+        /* Animación interactiva (Hover) */
+        tbody tr {
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            transform: scale(1.005);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            z-index: 10;
+            position: relative;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 50%;">Conceptos de Bienes a Depreciar</th>
+                    <th style="width: 30%;">Tasa de Depreciación Fiscal Anual %</th>
+                    <th style="width: 20%;">Vida Útil</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CONSTRUCCIONES Y EDIFICACIONES</td>
+                    <td>2,22%</td>
+                    <td>45</td>
+                </tr>
+                <tr>
+                    <td>ACUEDUCTO, PLANTA Y REDES</td>
+                    <td>2,50%</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td>VÍAS DE COMUNICACIÓN</td>
+                    <td>2,50%</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td>FLOTA Y EQUIPO AÉREO</td>
+                    <td>3,33%</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>FLOTA Y EQUIPO FÉRREO</td>
+                    <td>5,00%</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>FLOTA Y EQUIPO FLUVIAL</td>
+                    <td>6,67%</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>ARMAMENTO Y EQUIPO DE VIGILANCIA</td>
+                    <td>10,00%</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>EQUIPO ELÉCTRICO</td>
+                    <td>10,00%</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>FLOTA Y EQUIPO DE TRANSPORTE TERRESTRE</td>
+                    <td>10,00%</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>MAQUINARIA, EQUIPOS</td>
+                    <td>10,00%</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>MUEBLES Y ENSERES</td>
+                    <td>10,00%</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>EQUIPO MÉDICO CIENTÍFICO</td>
+                    <td>12,50%</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>ENVASES, EMPAQUES Y HERRAMIENTAS</td>
+                    <td>20,00%</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>EQUIPO DE COMPUTACIÓN</td>
+                    <td>20,00%</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>REDES DE PROCESAMIENTO DE DATOS</td>
+                    <td>20,00%</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>EQUIPO DE COMUNICACIÓN</td>
+                    <td>20,00%</td>
+                    <td>5</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulos de Inversión y Amortización</title>
+    <style>
+        /* Estilos globales con la estética limpia de Apple y paleta personalizada */
+        :root {
+            --sf-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --bg-gradient: linear-gradient(135deg, #f2f6f6 0%, #e1eae9 100%);
+            --primary-accent: #054C50;
+            --primary-accent-light: rgba(5, 76, 80, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --modal-bg: rgba(255, 255, 255, 0.96);
+            --text-main: #111e1f;
+            --text-secondary: #526263;
+            --shadow-subtle: 0 8px 30px rgba(5, 76, 80, 0.04);
+            --shadow-hover: 0 20px 40px rgba(5, 76, 80, 0.12);
+        }
+
+        body {
+            font-family: var(--sf-font);
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Contenedor de Tarjetas */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* Estilo de Tarjeta Apple Style con sutil toque de color */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 22px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 160px;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(5, 76, 80, 0.3);
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -0.022em;
+            line-height: 1.3;
+            color: var(--primary-accent);
+        }
+
+        /* Ventanas Emergentes (Modals) */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(5, 40, 42, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 35px;
+            border-radius: 28px;
+            width: 90%;
+            max-width: 580px;
+            box-shadow: 0 30px 60px rgba(5, 76, 80, 0.15);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            max-height: 85vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Botón Cerrar Minimalista */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-accent-light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--primary-accent);
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(5, 76, 80, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Elementos dentro del Modal */
+        .modal h2 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.022em;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: var(--primary-accent);
+        }
+
+        .modal img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .modal p {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin: 16px 0;
+            color: var(--text-main);
+        }
+
+        .modal p strong {
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary-accent);
+            margin-bottom: 4px;
+            opacity: 0.9;
+        }
+        
+        /* Personalización de barra de desplazamiento interna del modal */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(5, 76, 80, 0.15);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        
+        <!-- Tarjeta 1 -->
+        <div class="card" onclick="openModal('modal1')">
+            <h2>Desembolsos de establecimiento</h2>
+        </div>
+
+        <!-- Tarjeta 2 -->
+        <div class="card" onclick="openModal('modal2')">
+            <h2>Investigación y Desarrollo (I+D+i)</h2>
+        </div>
+
+        <!-- Tarjeta 3 -->
+        <div class="card" onclick="openModal('modal3')">
+            <h2>Software</h2>
+        </div>
+
+    </div>
+
+    <!-- Ventana Emergente 1 -->
+    <div id="modal1" class="modal" onclick="closeModal(event, 'modal1')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="hideModal('modal1')">&times;</span>
+            <h2>Desembolsos de establecimiento</h2>
+            <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=800&auto=format&fit=crop" alt="Oficina de diseño técnico">
+            <p><strong>Definición:</strong> inversiones necesarias para poner en marcha o mejorar la operación de la empresa.</p>
+            <p><strong>Ejemplo:</strong> una firma de ingeniería realiza el mejoramiento y remodelación de su oficina técnica, adecuando espacios de diseño, salas de reunión y sistemas de ventilación. Este gasto se amortiza en línea recta durante un período de hasta 5 años.</p>
+        </div>
+    </div>
+
+    <!-- Ventana Emergente 2 -->
+    <div id="modal2" class="modal" onclick="closeModal(event, 'modal2')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="hideModal('modal2')">&times;</span>
+            <h2>Investigación y Desarrollo (I+D+i)</h2>
+            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800&auto=format&fit=crop" alt="Ensayos de laboratorio">
+            <p><strong>Definición:</strong> Inversiones en innovación, tecnología o investigación aplicada.</p>
+            <p><strong>Ejemplo:</strong> una empresa de ingeniería estructural desarrolla un nuevo tipo de concreto con aditivos especiales para mejorar la durabilidad frente a ambientes marinos. Los costos de laboratorio, pruebas de resistencia y ensayos de campo se amortizan cuando finaliza el proyecto de investigación, sea existoso o no. Se empieza a generar el proceso de amortización y esta dura 5 años.</p>
+        </div>
+    </div>
+
+    <!-- Ventana Emergente 3 -->
+    <div id="modal3" class="modal" onclick="closeModal(event, 'modal3')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="hideModal('modal3')">&times;</span>
+            <h2>Software</h2>
+            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop" alt="Interfaz de Software de Ingeniería">
+            <p><strong>Definición:</strong> programas adquiridos o desarrollados para el negocio.</p>
+            <p><strong>Ejemplo en ingeniería civil:</strong> La empresa compra una licencia de software BIM especializado (como Revit) para diseñar estructuras. Si se vende, se deduce al momento de la venta; si se utiliza, se amortiza como inversión durante su vida útil.</p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = "flex";
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 400);
+        }
+
+        function closeModal(event, modalId) {
+            const modal = document.getElementById(modalId);
+            if (event.target === modal) {
+                hideModal(modalId);
+            }
+        }
+    </script>
+
+</body>
+</html>

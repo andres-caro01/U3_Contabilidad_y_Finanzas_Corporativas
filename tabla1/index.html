@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabla Comparativa: Depreciación vs Amortización</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary-color: #004d4d;
@@ -14,7 +18,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Se aplica la fuente Poppins como prioritaria */
+            font-family: 'Poppins', sans-serif;
             background-color: #f4f7f7;
             padding: 40px 20px;
             display: flex;
@@ -38,10 +43,10 @@
 
         th, td {
             padding: 16px 20px;
-            font-size: 15px;
+            font-size: 14px; /* Ajustado ligeramente ya que Poppins es un poco más grande */
             color: var(--text-color);
             border: 1px solid var(--border-color);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         /* Estilos del encabezado */
@@ -50,11 +55,11 @@
             color: var(--bg-white);
             text-transform: uppercase;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             border: 1px solid var(--primary-color);
         }
 
-        /* Filas intercaladas (filas pares con fondo claro según la imagen) */
+        /* Filas intercaladas */
         tbody tr:nth-child(even) {
             background-color: var(--bg-light);
         }
@@ -62,6 +67,11 @@
         /* Combinación de celdas para la fila de Registro en EEFF */
         .merged-row td {
             background-color: var(--bg-light);
+        }
+
+        /* Resaltado de los títulos de la izquierda */
+        tbody td:first-child {
+            font-weight: 500;
         }
 
         /* --- ANIMACIONES CSS --- */
@@ -78,28 +88,28 @@
             }
         }
 
-        /* Aplicar la animación base a las filas ocultas al inicio */
+        /* Aplicar la animación base a las filas */
         tbody tr {
             opacity: 0;
             animation: fadeInUp 0.5s ease-out forwards;
         }
 
-        /* Retraso escalonado para que las secciones aparezcan una tras otra */
+        /* Retraso escalonado para efecto cascada */
         tbody tr:nth-child(1) { animation-delay: 0.1s; }
         tbody tr:nth-child(2) { animation-delay: 0.3s; }
         tbody tr:nth-child(3) { animation-delay: 0.5s; }
         tbody tr:nth-child(4) { animation-delay: 0.7s; }
         tbody tr:nth-child(5) { animation-delay: 0.9s; }
 
-        /* Animación interactiva (Hover) al pasar el mouse por las filas */
+        /* Animación interactiva (Hover) */
         tbody tr {
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         tbody tr:hover {
-            background-color: #c2dc0020 !important; /* Un leve toque de luz */
+            background-color: rgba(0, 77, 77, 0.04) !important; /* Tono traslúcido a juego con el diseño */
             transform: scale(1.005);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             z-index: 10;
             position: relative;
             cursor: default;
@@ -119,26 +129,26 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Naturaleza del activo</strong></td>
+                    <td>Naturaleza del activo</td>
                     <td>Tangible (equipos, maquinaria, edificios).</td>
                     <td>Intangible (software, licencias, patentes).</td>
                 </tr>
                 <tr>
-                    <td><strong>Formula de perdida de valor</strong></td>
+                    <td>Formula de perdida de valor</td>
                     <td>Uso, desgaste físico, obsolescencia.</td>
                     <td>Uso, desgaste físico, obsolescencia.</td>
                 </tr>
                 <tr>
-                    <td><strong>Método contable</strong></td>
+                    <td>Método contable</td>
                     <td>Línea recta, suma de dígitos, unidades de producción.</td>
                     <td>Generalmente, línea recta.</td>
                 </tr>
                 <tr class="merged-row">
-                    <td><strong>Registro en Estados Financieros (EFF)</strong></td>
+                    <td>Registro en Estados Financieros (EFF)</td>
                     <td colspan="2">Depreciación y amortización</td>
                 </tr>
                 <tr>
-                    <td><strong>Valor residual</strong></td>
+                    <td>Valor residual</td>
                     <td>Puede tener (ej., valor de salvamento / Comercialización).</td>
                     <td>Generalmente, no tiene valor residual.</td>
                 </tr>

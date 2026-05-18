@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Amortización y Deducciones</title>
+    <style>
+        :root {
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --color-orange: #e04a1d;
+            --color-teal: #42a5b8;
+            --color-yellow: #e5a900;
+            --color-blue: #235ed7;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #fcfcfc;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Efecto trapezoide usando clip-path */
+        .card {
+            color: #ffffff;
+            padding: 40px 25px;
+            text-align: center;
+            border-radius: 15px; /* Suaviza las esquinas */
+            clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 320px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Colores de fondo específicos */
+        .card.orange { background-color: var(--color-orange); }
+        .card.teal { background-color: var(--color-teal); }
+        .card.yellow { background-color: var(--color-yellow); }
+        .card.blue { background-color: var(--color-blue); }
+
+        /* Iconos */
+        .icon-container {
+            width: 65px;
+            height: 65px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icon-container svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Tipografías */
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            line-height: 1.2;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+        /* Responsivo para tablets y móviles */
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            .card {
+                clip-path: none; /* Se elimina el trapezoide en pantallas pequeñas para mejor lectura */
+                border-radius: 20px;
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="card orange">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                    <path d="M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01M17 18h.01" stroke-width="2.5"></path>
+                </svg>
+            </div>
+            <h2>Gastos pagados por anticipado</h2>
+            <p>Se deducen progresivamente a medida que se recibe el servicio.</p>
+        </div>
+
+        <div class="card teal">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                    <circle cx="16" cy="15" r="2" stroke-width="1.5" fill="none"></circle>
+                </svg>
+            </div>
+            <h2>Desembolso de establecimiento</h2>
+            <p>Se amortizan en línea recta durante el plazo del contrato, y no pueden superar el 20% anual. / 5 años.</p>
+        </div>
+
+        <div class="card yellow">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <line x1="14.2" y1="12.2" x2="18" y2="16"></line>
+                </svg>
+            </div>
+            <h2>Investigación y desarrollo</h2>
+            <p>Se amortizan una vez finalice el proyecto sea exitoso o no, en proporciones iguales durante el tiempo esperado de generación de rentas.</p>
+        </div>
+
+        <div class="card blue">
+            <div class="icon-container">
+                <svg viewBox="0 0 24 24">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                    <polyline points="10 7 8 10 10 13"></polyline>
+                    <polyline points="14 7 16 10 14 13"></polyline>
+                </svg>
+            </div>
+            <h2>Software</h2>
+            <p>Si se vende, se deduce al momento de la venta; si se usa, se amortiza como inversión.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

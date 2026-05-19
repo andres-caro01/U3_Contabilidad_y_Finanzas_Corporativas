@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Flujo de Efectivo - Conceptos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        /* Centrado absoluto de la tabla en pantalla */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Evita scrolls horizontales durante la animación */
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 22px;
+            font-size: 14.5px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: middle;
+        }
+
+        /* --- ESTILOS DE ENCABEZADO --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-align: center;
+            font-size: 16px;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- CONFIGURACIÓN DE COLUMNAS --- */
+        tbody td:first-child {
+            font-weight: 500;
+            text-align: center;
+            width: 28%;
+            opacity: 0;
+            animation: zoomIn 0.5s ease forwards;
+        }
+
+        tbody td:last-child {
+            text-align: left;
+            width: 72%;
+            opacity: 0;
+            animation: fadeInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Filas intercaladas */
+        tbody tr:nth-child(even) td:last-child {
+            background-color: var(--bg-light);
+        }
+
+        tbody tr:nth-child(even) td:first-child {
+            background-color: #e6eeee;
+        }
+
+        /* --- ANIMACIONES AVANZADAS --- */
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(35px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Retrasos secuenciales controlados fila por fila (7 filas) */
+        tbody tr:nth-child(1) td:first-child { animation-delay: 0.15s; }
+        tbody tr:nth-child(1) td:last-child  { animation-delay: 0.25s; }
+
+        |tbody tr:nth-child(2) td:first-child { animation-delay: 0.30s; }
+        tbody tr:nth-child(2) td:last-child  { animation-delay: 0.40s; }
+
+        tbody tr:nth-child(3) td:first-child { animation-delay: 0.45s; }
+        tbody tr:nth-child(3) td:last-child  { animation-delay: 0.55s; }
+
+        tbody tr:nth-child(4) td:first-child { animation-delay: 0.60s; }
+        tbody tr:nth-child(4) td:last-child  { animation-delay: 0.70s; }
+
+        tbody tr:nth-child(5) td:first-child { animation-delay: 0.75s; }
+        tbody tr:nth-child(5) td:last-child  { animation-delay: 0.85s; }
+
+        tbody tr:nth-child(6) td:first-child { animation-delay: 0.90s; }
+        tbody tr:nth-child(6) td:last-child  { animation-delay: 1.00s; }
+
+        tbody tr:nth-child(7) td:first-child { animation-delay: 1.05s; }
+        tbody tr:nth-child(7) td:last-child  { animation-delay: 1.15s; }
+
+        /* --- INTERACTIVIDAD HOVER --- */
+        tbody tr {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            cursor: default;
+        }
+
+        tbody tr:hover td:first-child {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        tbody tr:hover {
+            transform: scale(1.002);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Estado de Flujo de Efectivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Solvencia</td>
+                    <td>Evalúa la capacidad de la entidad para cumplir sus compromisos financieros de largo plazo y afrontar obligaciones de inversión. Ayuda a determinar si la estructura financiera es sostenible a futuro.</td>
+                </tr>
+                <tr>
+                    <td>Liquidez</td>
+                    <td>Permite analizar si la empresa cuenta con recursos suficientes para enfrentar sus obligaciones de corto plazo, garantizando su operación sin necesidad de recurrir a financiación externa urgente. Pág. 65, principios de administración financiera.</td>
+                </tr>
+                <tr>
+                    <td>Rentabilidad</td>
+                    <td>Determina la utilidad neta generada por la entidad en relación con sus ingresos y activos. Este análisis permite valorar si las operaciones son económicamente viables y competitivas.</td>
+                </tr>
+                <tr>
+                    <td>Eficiencia operativa</td>
+                    <td>Analiza el nivel de rendimiento de los recursos empleados. Se evalúa qué tan bien utiliza la empresa sus activos para generar ingresos o producción, optimizando el uso de sus recursos.</td>
+                </tr>
+                <tr>
+                    <td>Riesgo financiero</td>
+                    <td>Estima la posibilidad de que eventos futuros adversos afecten la situación financiera de la empresa. Permite anticiparse a cambios inesperados y planificar estrategias que reduzcan impactos sobre activos y pasivos.</td>
+                </tr>
+                <tr>
+                    <td>Endeudamiento o análisis de apalancamiento</td>
+                    <td>El análisis del nivel de deuda también es crucial. Permite medir la dependencia de la entidad frente a terceros y su capacidad para responder con sus recursos propios.</td>
+                </tr>
+                <tr>
+                    <td>Flujo de efectivo</td>
+                    <td>Con base en el Estado de Flujos de Efectivo, se analiza la capacidad de la entidad para generar dinero en efectivo real, mantener operaciones y realizar inversiones. Es vital para la evaluación del riesgo de iliquidez.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Indicadores Financieros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        /* Centrado absoluto de la tabla en pantalla */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Evita desajustes durante el barrido lateral animado */
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 22px;
+            font-size: 14.5px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: middle;
+        }
+
+        /* --- ESTILOS DE ENCABEZADOS --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-align: center;
+            font-size: 15px;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- CONFIGURACIÓN DE COLUMNAS --- */
+        tbody td:first-child {
+            font-weight: 500;
+            text-align: left;
+            width: 20%;
+            opacity: 0;
+            animation: zoomIn 0.5s ease forwards;
+        }
+
+        .col-formula {
+            text-align: center;
+            width: 35%;
+            font-size: 16px;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .col-caract {
+            text-align: left;
+            width: 45%;
+            opacity: 0;
+            animation: slideFromRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* --- DISEÑO EXCLUSIVO PARA FÓRMULAS MATEMÁTICAS --- */
+        .formula-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+        }
+
+        .numerator {
+            border-bottom: 1px solid var(--text-color);
+            padding-bottom: 2px;
+            margin-bottom: 2px;
+        }
+
+        .denominator {
+            padding-top: 2px;
+        }
+
+        /* Alternancia cromática de filas */
+        tbody tr:nth-child(even) td:not(.col-formula):not(.col-caract) {
+            background-color: #e6eeee;
+        }
+
+        tbody tr:nth-child(even) .col-formula,
+        tbody tr:nth-child(even) .col-caract {
+            background-color: var(--bg-light);
+        }
+
+        tbody tr:nth-child(odd) td:first-child {
+            background-color: #fafbfc;
+        }
+
+        /* --- ANIMACIONES AVANZADAS --- */
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.93); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideFromRight {
+            from { opacity: 0; transform: translateX(45px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Retrasos controlados individualmente por fila y celda */
+        tbody tr:nth-child(1) td:first-child { animation-delay: 0.15s; }
+        tbody tr:nth-child(1) .col-formula   { animation-delay: 0.25s; }
+        tbody tr:nth-child(1) .col-caract    { animation-delay: 0.35s; }
+
+        tbody tr:nth-child(2) td:first-child { animation-delay: 0.35s; }
+        tbody tr:nth-child(2) .col-formula   { animation-delay: 0.45s; }
+        tbody tr:nth-child(2) .col-caract    { animation-delay: 0.55s; }
+
+        tbody tr:nth-child(3) td:first-child { animation-delay: 0.55s; }
+        tbody tr:nth-child(3) .col-formula   { animation-delay: 0.65s; }
+        tbody tr:nth-child(3) .col-caract    { animation-delay: 0.75s; }
+
+        tbody tr:nth-child(4) td:first-child { animation-delay: 0.75s; }
+        tbody tr:nth-child(4) .col-formula   { animation-delay: 0.85s; }
+        tbody tr:nth-child(4) .col-caract    { animation-delay: 0.95s; }
+
+        tbody tr:nth-child(5) td:first-child { animation-delay: 0.95s; }
+        tbody tr:nth-child(5) .col-formula   { animation-delay: 1.05s; }
+        tbody tr:nth-child(5) .col-caract    { animation-delay: 1.15s; }
+
+        /* --- INTERACTIVIDAD HOVER --- */
+        tbody tr {
+            transition: transform 0.2s ease;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            cursor: default;
+        }
+
+        tbody tr:hover td:first-child {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        tbody tr:hover {
+            transform: scale(1.002);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Indicador</th>
+                    <th>Fórmula</th>
+                    <th>Características</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Liquidez</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Activos Corrientes</span>
+                                <span class="denominator">Pasivos Corrientes</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-caract">Mide la capacidad de la empresa para cumplir con las obligaciones o deudas de corto plazo</td>
+                </tr>
+                <tr>
+                    <td>Prueba ácida</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">(Activos Corrientes - Inventarios)</span>
+                                <span class="denominator">Pasivos Corrientes</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-caract">Mide la capacidad de la empresa para cubrir las deudas de corto plazo con los activos más líquidos</td>
+                </tr>
+                <tr>
+                    <td>Deuda/Patrimonio</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Pasivos Totales</span>
+                                <span class="denominator">Patrimonio Neto</span>
+                            </div>
+                            <span>&nbsp;* 100</span>
+                        </div>
+                    </td>
+                    <td class="col-caract">Mide la relación de deuda que tiene una empresa en relación con su patrimonio</td>
+                </tr>
+                <tr>
+                    <td>Endeudamiento Total</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Pasivos Totales</span>
+                                <span class="denominator">Activos Totales</span>
+                            </div>
+                            <span>&nbsp;* 100</span>
+                        </div>
+                    </td>
+                    <td class="col-caract">Es la proporción o % de los activos que son financiados con deuda.</td>
+                </tr>
+                <tr>
+                    <td>Cobertura de Intereses</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">EBIT</span>
+                                <span class="denominator">Intereses</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-caract">Mide la capacidad de una empresa para pagar los gastos financieros con sus ganancias operativas</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

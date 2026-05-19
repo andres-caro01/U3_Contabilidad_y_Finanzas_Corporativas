@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Flujo de Efectivo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+            --sign-plus: #4caf50;
+            --sign-minus: #f44336;
+        }
+
+        /* Centrado absoluto de la tabla en la interfaz */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Evita barras de scroll horizontales por las entradas laterales */
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 950px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px 22px;
+            font-size: 14.5px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: middle;
+        }
+
+        /* --- ESTILOS DE ENCABEZADO --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-align: center;
+            font-size: 16px;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- ALINEACIONES Y FORMATOS --- */
+        tbody td:first-child {
+            text-align: left;
+            padding-left: 30px;
+            width: 65%;
+        }
+
+        tbody td:last-child {
+            text-align: center;
+            width: 35%;
+        }
+
+        /* Filas intercaladas */
+        tbody tr:nth-child(even) td {
+            background-color: var(--bg-light);
+        }
+
+        /* Fila de cierre con subrayado contable tradicional */
+        .double-underline {
+            text-decoration: underline;
+            text-decoration-style: double;
+            font-weight: 700;
+        }
+
+        /* Selectores de Signos analíticos */
+        .sign { font-weight: 700; margin-right: 5px; }
+        .plus { color: var(--sign-plus); }
+        .minus { color: var(--sign-minus); }
+        .neutral { color: #333; }
+
+        /* --- ANIMACIONES ENTRALAZADAS AVANZADAS --- */
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideFromLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideFromRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Ocultar inicialmente filas para entrada controlada */
+        tbody tr {
+            opacity: 0;
+        }
+
+        /* Bloque de flujos de actividades (Entrada por la izquierda) */
+        tbody tr:nth-child(1) { animation: slideFromLeft 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.2s; }
+        tbody tr:nth-child(2) { animation: slideFromLeft 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.35s; }
+        tbody tr:nth-child(3) { animation: slideFromLeft 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.5s; }
+
+        /* Bloque de consolidación de saldos (Entrada cruzada por la derecha) */
+        tbody tr:nth-child(4) { animation: slideFromRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.65s; font-weight: 600; }
+        tbody tr:nth-child(5) { animation: slideFromRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.8s; }
+        tbody tr:nth-child(6) { animation: slideFromRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.95s; font-weight: 700; }
+
+        /* --- INTERACTIVIDAD HOVER --- */
+        tbody tr {
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            cursor: default;
+        }
+
+        tbody tr:hover {
+            transform: scale(1.003);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Estado de Flujo de Efectivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="sign"><span class="plus">(+)</span>/<span class="minus">-</span></span> Efectivo generado/utilizado en operación</td>
+                    <td>$ 35.750.000</td>
+                </tr>
+                <tr>
+                    <td><span class="sign"><span class="plus">(+)</span>/<span class="minus">-</span></span> Efectivo generado/utilizado en financiamiento</td>
+                    <td>($ 19.320.000)</td>
+                </tr>
+                <tr>
+                    <td><span class="sign"><span class="plus">(+)</span>/<span class="minus">-</span></span> Efectivo generado/utilizado en inversión</td>
+                    <td>$ 9.050.000</td>
+                </tr>
+                <tr>
+                    <td><span class="sign neutral">(=)</span> Aumento o disminución de efectivo</td>
+                    <td>$ 25.480.000</td>
+                </tr>
+                <tr>
+                    <td><span class="sign plus">(+)</span> Saldo de efectivo al inicio del periodo</td>
+                    <td>$ 40.120.000</td>
+                </tr>
+                <tr>
+                    <td><span class="sign neutral">(=)</span> Saldo de efectivo al final del periodo</td>
+                    <td class="double-underline">$ 65.600.000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

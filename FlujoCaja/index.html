@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas de Evaluación de Proyectos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-glow: #10b981;
+            --secondary-glow: #0ea5e9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Contenedor de la cuadrícula */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Estilo base de las tarjetas */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px 30px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Efecto de luz de fondo (glow) oculto por defecto */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Variación de color de luz para la segunda y cuarta tarjeta */
+        .card.alt-glow::before {
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 60%);
+        }
+
+        /* Estilos del ícono */
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: var(--primary-glow);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.4s ease;
+            z-index: 2;
+        }
+
+        .card.alt-glow .icon-wrapper {
+            color: var(--secondary-glow);
+            border-color: rgba(14, 165, 233, 0.2);
+        }
+
+        /* Títulos y textos */
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            z-index: 2;
+        }
+
+        /* ================= HOVER EFFECTS (EFECTOS DE LUCES Y MOVIMIENTO) ================= */
+        
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
+                        0 0 30px rgba(16, 185, 129, 0.1);
+        }
+
+        .card.alt-glow:hover {
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
+                        0 0 30px rgba(14, 165, 233, 0.1);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover .icon-wrapper {
+            background: var(--primary-glow);
+            color: #fff;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .card.alt-glow:hover .icon-wrapper {
+            background: var(--secondary-glow);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        }
+
+        /* Animación sutil de entrada para la página */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Retrasos de animación para efecto cascada */
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="card">
+            <div class="icon-wrapper">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3>Viabilidad financiera</h3>
+            <p>Analizar la viabilidad financiera de una iniciativa, evaluando si los ingresos generados serán suficientes para cubrir los costos, gastos e inversiones necesarias.</p>
+        </div>
+
+        <div class="card alt-glow">
+            <div class="icon-wrapper">
+                <i class="fa-solid fa-calculator"></i>
+            </div>
+            <h3>Indicadores clave</h3>
+            <p>Calcular indicadores clave como el Valor Presente Neto (VPN) y la Tasa Interna de Retorno (TIR), que sirven para comparar alternativas y determinar si un proyecto genera valor.</p>
+        </div>
+
+        <div class="card">
+            <div class="icon-wrapper">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+            <h3>Sostenibilidad</h3>
+            <p>Determinar si los recursos generados son suficientes para garantizar la sostenibilidad del proyecto a largo plazo.</p>
+        </div>
+
+        <div class="card alt-glow">
+            <div class="icon-wrapper">
+                <i class="fa-solid fa-compass-drafting"></i>
+            </div>
+            <h3>Decisiones estratégicas</h3>
+            <p>Tomar decisiones estratégicas comparando proyectos similares, considerando el costo de capital, las entradas y salidas de efectivo durante un periodo determinado.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

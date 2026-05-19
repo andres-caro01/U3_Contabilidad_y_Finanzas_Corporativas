@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Resultados Proyectado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+            --sign-plus: #4caf50;
+            --sign-minus: #f44336;
+        }
+
+        /* Centrado absoluto en la ventana de visualización */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 18px;
+            font-size: 14px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: middle;
+        }
+
+        /* --- ESTILOS DE COLUMNAS Y ALINEACIONES --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-align: center;
+            animation: expandDown 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        /* Columna lateral vertical 'ESTADO DE RESULTADOS' */
+        .sidebar-title {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-align: center;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            font-size: 15px;
+            width: 40px;
+            padding: 0;
+        }
+
+        /* Alineación del texto de las celdas de datos */
+        tbody td:nth-child(2) { text-align: left; padding-left: 25px; } /* Conceptos */
+        tbody td:nth-child(3), 
+        tbody td:nth-child(4), 
+        tbody td:nth-child(5) { text-align: center; width: 18%; } /* Años */
+
+        /* Filas de totales destacadas en negrita */
+        .row-bold td {
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Intercalado de filas pares */
+        tbody tr:nth-child(even) td:not(.sidebar-title) {
+            background-color: var(--bg-light);
+        }
+
+        /* Formato de colores para signos analíticos */
+        .sign { font-weight: 700; margin-right: 3px; }
+        .plus { color: var(--sign-plus); }
+        .minus { color: var(--sign-minus); }
+        .neutral { color: #666; }
+
+        /* --- ANIMACIONES EN CASCADA AVANZADAS --- */
+
+        @keyframes expandDown {
+            from { transform: scaleY(0); opacity: 0; transform-origin: top; }
+            to { transform: scaleY(1); opacity: 1; transform-origin: top; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Inicializar filas ocultas para la animación secuencial */
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        /* Retraso automatizado línea por línea (13 filas) */
+        tbody tr:nth-child(1)  { animation-delay: 0.15s; }
+        tbody tr:nth-child(2)  { animation-delay: 0.22s; }
+        tbody tr:nth-child(3)  { animation-delay: 0.29s; }
+        tbody tr:nth-child(4)  { animation-delay: 0.36s; }
+        tbody tr:nth-child(5)  { animation-delay: 0.43s; }
+        tbody tr:nth-child(6)  { animation-delay: 0.50s; }
+        tbody tr:nth-child(7)  { animation-delay: 0.57s; }
+        tbody tr:nth-child(8)  { animation-delay: 0.64s; }
+        tbody tr:nth-child(9)  { animation-delay: 0.71s; }
+        tbody tr:nth-child(10) { animation-delay: 0.78s; }
+        tbody tr:nth-child(11) { animation-delay: 0.85s; }
+        tbody tr:nth-child(12) { animation-delay: 0.92s; }
+        tbody tr:nth-child(13) { animation-delay: 0.99s; }
+
+        /* --- EFECTO INTERACTIVO HOVER --- */
+        tbody tr:hover td:not(.sidebar-title) {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            transition: background-color 0.2s ease;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2" style="width: 40px; border: none; background: transparent;"></th>
+                    <th>Concepto</th>
+                    <th>Año 0</th>
+                    <th>Año 1</th>
+                    <th>Año 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="13" class="sidebar-title">Estado de Resultados</td>
+                    <td><span class="sign plus">(+)</span> Ingresos (PxQ)</td>
+                    <td></td>
+                    <td>$ 904.800</td>
+                    <td>$ 1.215.000</td>
+                </tr>
+                <tr>
+                    <td>Precio (P)</td>
+                    <td></td>
+                    <td>$ 87</td>
+                    <td>$ 90</td>
+                </tr>
+                <tr>
+                    <td>Cantidad (Q)</td>
+                    <td></td>
+                    <td>10.400</td>
+                    <td>13.500</td>
+                </tr>
+                <tr>
+                    <td>Inflación</td>
+                    <td></td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td><span class="sign minus">(-)</span> Costo de ventas</td>
+                    <td></td>
+                    <td>$ 230.000</td>
+                    <td>$ 345.000</td>
+                </tr>
+                <tr class="row-bold">
+                    <td><span class="sign neutral">(=)</span> UTILIDAD BRUTA</td>
+                    <td></td>
+                    <td>$ 674.800</td>
+                    <td>$ 870.000</td>
+                </tr>
+                <tr>
+                    <td><span class="sign minus">(-)</span> Gastos operacionales</td>
+                    <td></td>
+                    <td>$ 115.000</td>
+                    <td>$ 165.000</td>
+                </tr>
+                <tr>
+                    <td><span class="sign minus">(-)</span> Depreciaciones y amortizaciones</td>
+                    <td></td>
+                    <td>$ 176.078</td>
+                    <td>$ 176.078</td>
+                </tr>
+                <tr class="row-bold">
+                    <td><span class="sign neutral">(=)</span> UTILIDAD OPERACIONAL</td>
+                    <td></td>
+                    <td>$ 383.722</td>
+                    <td>$ 528.922</td>
+                </tr>
+                <tr>
+                    <td><span class="sign minus">(-)</span> Intereses</td>
+                    <td></td>
+                    <td>$ 0</td>
+                    <td>$ 0</td>
+                </tr>
+                <tr>
+                    <td><span class="sign plus">(+/-)</span> Otros ingresos/egresos</td>
+                    <td></td>
+                    <td>$ 0</td>
+                    <td>$ 0</td>
+                </tr>
+                <tr class="row-bold">
+                    <td><span class="sign neutral">(=)</span> UTILIDAD ANTES DE IMPUESTOS</td>
+                    <td></td>
+                    <td>$ 383.722</td>
+                    <td>$ 528.922</td>
+                </tr>
+                <tr>
+                    <td><span class="sign minus">(-)</span> Impuestos</td>
+                    <td></td>
+                    <td>$ 134.303</td>
+                    <td>$ 185.123</td>
+                </tr>
+                <tr class="row-bold">
+                    <td style="background-color: var(--primary-color); border: none;"></td>
+                    <td><span class="sign neutral">(=)</span> UTILIDAD NETA</td>
+                    <td></td>
+                    <td>$ 249.419</td>
+                    <td>$ 343.799</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

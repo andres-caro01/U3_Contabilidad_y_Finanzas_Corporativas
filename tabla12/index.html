@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Variaciones en el Capital Contable</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+            --sign-plus: #4caf50;
+            --sign-minus: #f44336;
+        }
+
+        /* Centrado absoluto de la tabla en pantalla */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 18px;
+            font-size: 14px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: middle;
+        }
+
+        /* --- ESTILOS DE ENCABEZADOS --- */
+        .main-header {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-align: center;
+            font-size: 16px;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        .sub-header th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            font-size: 13.5px;
+            text-align: center;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            animation-delay: 0.1s;
+        }
+
+        /* --- CONFIGURACIÓN DE COLUMNAS --- */
+        tbody td:first-child {
+            text-align: left;
+            padding-left: 25px;
+            width: 28%;
+        }
+        
+        tbody td:nth-child(2),
+        tbody td:nth-child(3),
+        tbody td:nth-child(4) {
+            text-align: center;
+            width: 24%;
+        }
+
+        /* Filas destacadas en negrita */
+        .row-important td {
+            font-weight: 700;
+        }
+
+        /* Filas intercaladas */
+        tbody tr:nth-child(even) td {
+            background-color: var(--bg-light);
+        }
+
+        /* Elementos analíticos (Signos) */
+        .sign { font-weight: 700; margin-right: 4px; }
+        .plus { color: var(--sign-plus); }
+        .minus { color: var(--sign-minus); }
+        .neutral { color: #333; }
+
+        /* --- ANIMACIONES AVANZADAS --- */
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Configuración del despliegue cronológico por bloques */
+        tbody tr {
+            opacity: 0;
+        }
+
+        /* Bloque 1: Saldo Inicial */
+        tbody tr:nth-child(1) { animation: fadeInLeft 0.5s ease forwards; animation-delay: 0.25s; }
+        
+        /* Bloque 2: Aumentos */
+        tbody tr:nth-child(2) { animation: fadeInLeft 0.5s ease forwards; animation-delay: 0.40s; }
+        tbody tr:nth-child(3) { animation: fadeInLeft 0.5s ease forwards; animation-delay: 0.50s; }
+        tbody tr:nth-child(4) { animation: fadeInLeft 0.5s ease forwards; animation-delay: 0.60s; }
+        
+        /* Bloque 3: Disminuciones */
+        tbody tr:nth-child(5) { animation: fadeInLeft 0.5s ease forwards; animation-delay: 0.75s; }
+        tbody tr:nth-child(6) { animation: fadeInLeft 0.5s ease forwards; animation-delay: 0.85s; }
+        tbody tr:nth-child(7) { animation: fadeInLeft 0.5s ease forwards; animation-delay: 0.95s; }
+        
+        /* Bloque 4: Saldo Final */
+        tbody tr:nth-child(8) { animation: zoomIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; animation-delay: 1.15s; }
+
+        /* --- INTERACTIVIDAD (HOVER) --- */
+        tbody tr {
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            cursor: default;
+        }
+        
+        tbody tr:hover {
+            transform: scale(1.002);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="4" class="main-header">Estado de Variaciones en el Capital Contable</th>
+                </tr>
+                <tr class="sub-header">
+                    <th>Concepto</th>
+                    <th>Capital Social</th>
+                    <th>Utilidades Retenidas</th>
+                    <th>Capital Contable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row-important">
+                    <td>Saldo inicial</td>
+                    <td>$ 96.000.000</td>
+                    <td>$ 49.000.000</td>
+                    <td>$ 143.000.000</td>
+                </tr>
+                <tr class="row-important">
+                    <td><span class="sign plus">(+)</span> Aumentos</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Aportaciones de socios</td>
+                    <td>$ 168.000.000</td>
+                    <td>----</td>
+                    <td>$ 168.000.000</td>
+                </tr>
+                <tr>
+                    <td>Utilidad neta</td>
+                    <td>0</td>
+                    <td>$ 52.600.000</td>
+                    <td>$ 52.600.000</td>
+                </tr>
+                <tr class="row-important">
+                    <td><span class="sign minus">(-)</span> Disminuciones</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Retiros de socios</td>
+                    <td>($ 43.000.000)</td>
+                    <td>----</td>
+                    <td>($ 43.000.000)</td>
+                </tr>
+                <tr>
+                    <td>Dividendos</td>
+                    <td></td>
+                    <td>($ 35.000.000)</td>
+                    <td>($ 35.000.000)</td>
+                </tr>
+                <tr class="row-important" style="border-top: 2px solid var(--primary-color);">
+                    <td><span class="sign neutral">(=)</span> Saldo final</td>
+                    <td>$ 221.000.000</td>
+                    <td>$ 66.600.000</td>
+                    <td>$ 285.600.000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

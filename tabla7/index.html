@@ -17,12 +17,17 @@
             --border-color: #d1e0e0;
         }
 
+        /* Modificado para garantizar el centrado absoluto en la pantalla */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f7f7;
-            padding: 40px 20px;
+            margin: 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Centrado horizontal */
+            align-items: center;     /* Centrado vertical */
+            min-height: 100vh;       /* Toma todo el alto de la ventana del navegador */
+            box-sizing: border-box;
         }
 
         .table-container {
@@ -45,7 +50,7 @@
             color: var(--text-color);
             border: 1px solid var(--border-color);
             line-height: 1.5;
-            text-align: left; /* Alineación a la izquierda para facilitar la lectura de textos largos */
+            text-align: left;
             vertical-align: top;
         }
 
@@ -61,7 +66,7 @@
             vertical-align: middle;
         }
 
-        /* Centrar la primera columna de conceptos horizontal y verticalmente */
+        /* Centrar la primera columna de conceptos */
         tbody td:first-child {
             text-align: center;
             vertical-align: middle;
@@ -75,7 +80,6 @@
 
         /* --- ANIMACIONES CSS --- */
 
-        /* Animación de entrada al cargar la página */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -87,13 +91,11 @@
             }
         }
 
-        /* Aplicar la animación base a las filas */
         tbody tr {
             opacity: 0;
             animation: fadeInUp 0.4s ease-out forwards;
         }
 
-        /* Retraso escalonado para las 4 filas principales */
         tbody tr:nth-child(1) { animation-delay: 0.10s; }
         tbody tr:nth-child(2) { animation-delay: 0.25s; }
         tbody tr:nth-child(3) { animation-delay: 0.40s; }

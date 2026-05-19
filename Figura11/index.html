@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flujo de Proceso - VPN</title>
+    <style>
+        :root {
+            --color-1: #f0ad4e;
+            --color-2: #d9534f;
+            --color-3: #458b9b;
+            --color-4: #337ab7;
+            --color-5: #1d4e70;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-glow: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Instrucción para el usuario */
+        .instruction-text {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Contenedor de Tarjetas */
+        .process-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+            perspective: 1000px;
+        }
+
+        /* Estilos de las Tarjetas */
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Círculos Numéricos */
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 3px solid transparent;
+            background: rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover .step-number {
+            transform: rotateY(360deg);
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+
+        /* Variaciones de Color por Paso */
+        .card-1 .step-number { color: var(--color-1); border-color: var(--color-1); box-shadow: 0 0 15px rgba(240, 173, 78, 0.3); }
+        .card-1 .step-title { color: var(--color-1); }
+        
+        .card-2 .step-number { color: var(--color-2); border-color: var(--color-2); box-shadow: 0 0 15px rgba(217, 83, 79, 0.3); }
+        .card-2 .step-title { color: var(--color-2); }
+        
+        .card-3 .step-number { color: var(--color-3); border-color: var(--color-3); box-shadow: 0 0 15px rgba(69, 139, 155, 0.3); }
+        .card-3 .step-title { color: var(--color-3); }
+        
+        .card-4 .step-number { color: var(--color-4); border-color: var(--color-4); box-shadow: 0 0 15px rgba(51, 122, 183, 0.3); }
+        .card-4 .step-title { color: var(--color-4); }
+        
+        .card-5 .step-number { color: var(--color-5); border-color: var(--color-5); box-shadow: 0 0 15px rgba(29, 78, 112, 0.3); }
+        .card-5 .step-title { color: var(--color-5); }
+
+        /* Estructura del Modal (Ventana Emergente) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 6, 15, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            perspective: 1200px;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Ventana Emergente con Efecto 3D */
+        .modal-box {
+            background: #1e293b;
+            border: 2px solid transparent;
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            
+            /* Estado inicial 3D (Oculto) */
+            transform: rotateX(-60deg) scale(0.7) translateY(-50px);
+            transform-origin: top center;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-box {
+            /* Estado activo 3D */
+            transform: rotateX(0deg) scale(1) translateY(0);
+        }
+
+        .modal-num {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .modal-desc {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid transparent;
+        }
+
+        /* Botón Cerrar */
+        .close-btn {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #ffffff;
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instruction-text">
+        Haga clic sobre las tarjetas para ampliar la información
+    </div>
+
+    <div class="process-container">
+        
+        <div class="step-card card-1" onclick="openModal(1)">
+            <div class="step-number">01</div>
+            <div class="step-title">Indentificar Inversión Inicial</div>
+        </div>
+
+        <div class="step-card card-2" onclick="openModal(2)">
+            <div class="step-number">02</div>
+            <div class="step-title">Proyectar Flujo de Efectivo</div>
+        </div>
+
+        <div class="step-card card-3" onclick="openModal(3)">
+            <div class="step-number">03</div>
+            <div class="step-title">Aplicar Tasa de Descuento</div>
+        </div>
+
+        <div class="step-card card-4" onclick="openModal(4)">
+            <div class="step-number">04</div>
+            <div class="step-title">Sumar Valores Presentes</div>
+        </div>
+
+        <div class="step-card card-5" onclick="openModal(5)">
+            <div class="step-number">05</div>
+            <div class="step-title">Restar Inversión Inicial</div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-box" id="modalBox">
+            <div class="modal-num" id="mNum">00</div>
+            <div class="modal-title" id="mTitle">Título</div>
+            <div class="modal-desc" id="mDesc">Descripción</div>
+            <button class="close-btn" onclick="forceClose()">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Datos extraídos exactamente de la imagen proporcionada
+        const dataProcess = {
+            1: {
+                title: "Indentificar Inversión Inicial",
+                desc: "Determinar la inversión inicial del proyecto",
+                color: "var(--color-1)"
+            },
+            2: {
+                title: "Proyectar Flujo de Efectivo",
+                desc: "Estimar las entradas y salidas de efectivo futuras",
+                color: "var(--color-2)"
+            },
+            3: {
+                title: "Aplicar Tasa de Descuento",
+                desc: "Descontar los flujos de efectivo a su valor presente",
+                color: "var(--color-3)"
+            },
+            4: {
+                title: "Sumar Valores Presentes",
+                desc: "Calcular el valor oresente total de todos los flujos de efectivo",
+                color: "var(--color-4)"
+            },
+            5: {
+                title: "Restar Inversión Inicial",
+                desc: "Calucular el Valor Presente Neto (VPN) restando la inversión inicial",
+                color: "var(--color-5)"
+            }
+        };
+
+        const overlay = document.getElementById('modalOverlay');
+        const mBox = document.getElementById('modalBox');
+        const mNum = document.getElementById('mNum');
+        const mTitle = document.getElementById('mTitle');
+        const mDesc = document.getElementById('mDesc');
+
+        function openModal(step) {
+            const stepData = dataProcess[step];
+            
+            // Asignar textos
+            mNum.innerText = step < 10 ? '0' + step : step;
+            mTitle.innerText = stepData.title;
+            mDesc.innerText = stepData.desc;
+            
+            // Personalizar colores dinámicamente según el paso
+            mNum.style.color = stepData.color;
+            mTitle.style.color = stepData.color;
+            mBox.style.borderColor = stepData.color;
+            mDesc.style.borderLeftColor = stepData.color;
+
+            // Mostrar con transición
+            overlay.classList.add('active');
+        }
+
+        function closeModal(event) {
+            if (event.target === overlay) {
+                forceClose();
+            }
+        }
+
+        function forceClose() {
+            overlay.classList.remove('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') forceClose();
+        });
+    </script>
+</body>
+</html>

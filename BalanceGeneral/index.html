@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas Contables Interactivas</title>
+    <style>
+        /* Importación de fuente moderna */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap');
+
+        :root {
+            --bg-color: #0b111e;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-glow: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(59, 130, 246, 0.15), transparent 40%);
+            --accent-border-glow: radial-gradient(400px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(59, 130, 246, 0.4), transparent 40%);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Contenedor Grid con perspectiva 3D */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1200px;
+            width: 90%;
+            perspective: 1000px;
+        }
+
+        /* Tarjeta Base y Animación de Entrada */
+        .card {
+            position: relative;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: left;
+            text-decoration: none;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            
+            /* Bordes premium estilo Apple */
+            border: 1px solid var(--card-border);
+            
+            /* Estado inicial para la animación de entrada */
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            animation: cubic-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: calc(var(--delay) * 150ms);
+            
+            /* Transiciones nativas suaves para el hover */
+            transition: 
+                transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                border-color 0.5s ease;
+        }
+
+        /* Capa de brillo dinámico interna */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--accent-glow);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* --- EFECTOS HOVER AVANZADOS --- */
+        .card:hover {
+            transform: translateY(-8px) scale(1.02) rotateX(2deg) rotateY(-2deg);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 50px rgba(59, 130, 246, 0.1);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Contenido interno asegurando prioridad sobre los brillos */
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Estilos de Tipografía */
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 20px 0;
+            letter-spacing: -0.02em;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Línea decorativa sutil debajo del título */
+        .card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: #3b82f6;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .card:hover h2::after {
+            width: 50px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .card li {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Viñeta minimalista interactiva */
+        .card li::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--text-secondary);
+            border-radius: 50%;
+            margin-right: 12px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Efecto de foco en la lista al hacer hover */
+        .card:hover li {
+            color: #e5e7eb;
+        }
+
+        .card li:hover {
+            color: #3b82f6;
+            transform: translateX(4px);
+        }
+
+        .card li:hover::before {
+            background-color: #3b82f6;
+            transform: scale(1.5);
+        }
+
+        /* Keyframes para la entrada fluida tipo Apple Cinematic */
+        @keyframes cubic-entrance {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Responsive para pantallas medianas y móviles */
+        @media (max-width: 968px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cards-container">
+        <div class="card" style="--delay: 1;">
+            <div class="card-content">
+                <h2>Activo</h2>
+                <ul>
+                    <li>Corrientes o circulante</li>
+                    <li>No corrientes o fijos</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="--delay: 2;">
+            <div class="card-content">
+                <h2>Pasivo</h2>
+                <ul>
+                    <li>Corrientes o circulante</li>
+                    <li>No corrientes o de largo plazo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="--delay: 3;">
+            <div class="card-content">
+                <h2>Capital Contable</h2>
+                <ul>
+                    <li>Patrimonio</li>
+                    <li>Reservas</li>
+                    <li>Utilidades retenidas</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
+</html>

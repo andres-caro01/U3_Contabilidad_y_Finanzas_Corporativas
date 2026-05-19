@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Comparativa de Gastos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        /* Centrado absoluto de la estructura en la pantalla */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Evita desbordamiento por las animaciones laterales */
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            font-size: 14.5px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        /* Estilos y animación para los encabezados */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-align: center;
+            animation: slideDown 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* Primera columna: Conceptos */
+        tbody td:first-child {
+            font-weight: 500;
+            background-color: #fafbfc;
+            text-align: left;
+            opacity: 0;
+            animation: zoomIn 0.5s ease forwards;
+        }
+
+        /* Control de opacidad inicial para las columnas animadas */
+        .col-left, .col-right {
+            opacity: 0;
+        }
+
+        /* Filas intercaladas */
+        tbody tr:nth-child(even) td {
+            background-color: var(--bg-light);
+        }
+        /* Conservar consistencia de fondo en la primera columna si es fila par */
+        tbody tr:nth-child(even) td:first-child {
+            background-color: #e6eeee; 
+        }
+
+        /* --- ANIMACIONES AVANZADAS --- */
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Activación de animaciones por fila con retraso escalonado (efecto cascada) */
+        tbody tr:nth-child(1) td:first-child { animation-delay: 0.2s; }
+        tbody tr:nth-child(1) .col-left      { animation: slideLeft 0.5s ease forwards; animation-delay: 0.3s; }
+        tbody tr:nth-child(1) .col-right     { animation: slideRight 0.5s ease forwards; animation-delay: 0.4s; }
+
+        tbody tr:nth-child(2) td:first-child { animation-delay: 0.4s; }
+        tbody tr:nth-child(2) .col-left      { animation: slideLeft 0.5s ease forwards; animation-delay: 0.5s; }
+        tbody tr:nth-child(2) .col-right     { animation: slideRight 0.5s ease forwards; animation-delay: 0.6s; }
+
+        tbody tr:nth-child(3) td:first-child { animation-delay: 0.6s; }
+        tbody tr:nth-child(3) .col-left      { animation: slideLeft 0.5s ease forwards; animation-delay: 0.7s; }
+        tbody tr:nth-child(3) .col-right     { animation: slideRight 0.5s ease forwards; animation-delay: 0.8s; }
+
+        tbody tr:nth-child(4) td:first-child { animation-delay: 0.8s; }
+        tbody tr:nth-child(4) .col-left      { animation: slideLeft 0.5s ease forwards; animation-delay: 0.9s; }
+        tbody tr:nth-child(4) .col-right     { animation: slideRight 0.5s ease forwards; animation-delay: 1.0s; }
+
+        tbody tr:nth-child(5) td:first-child { animation-delay: 1.0s; }
+        tbody tr:nth-child(5) .col-left      { animation: slideLeft 0.5s ease forwards; animation-delay: 1.1s; }
+        tbody tr:nth-child(5) .col-right     { animation: slideRight 0.5s ease forwards; animation-delay: 1.2s; }
+
+        tbody tr:nth-child(6) td:first-child { animation-delay: 1.2s; }
+        tbody tr:nth-child(6) .col-left      { animation: slideLeft 0.5s ease forwards; animation-delay: 1.3s; }
+        tbody tr:nth-child(6) .col-right     { animation: slideRight 0.5s ease forwards; animation-delay: 1.4s; }
+
+        /* --- INTERACTIVIDAD HOVER --- */
+        tbody tr {
+            transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 77, 77, 0.03);
+            transform: scale(1.004);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            z-index: 5;
+            position: relative;
+            cursor: default;
+        }
+        
+        tbody tr:hover td:first-child {
+            background-color: rgba(0, 77, 77, 0.05);
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Conceptos</th>
+                    <th style="width: 40%;">Gastos Ordinarios</th>
+                    <th style="width: 40%;">Gastos No Ordinarios</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Definición</td>
+                    <td class="col-left">Son los valores asociados directamente a la producción de bienes o prestación de servicios.</td>
+                    <td class="col-right">Son los valores incurridos para administrar, vender o mantener la empresa en funcionamiento.</td>
+                </tr>
+                <tr>
+                    <td>Relación con el producto o servicio</td>
+                    <td class="col-left">Directamente relacionados con la fabricación o prestación del servicio.</td>
+                    <td class="col-right">No están directamente ligados al producto, sino al funcionamiento general de la empresa.</td>
+                </tr>
+                <tr>
+                    <td>Ejemplos</td>
+                    <td class="col-left">Materia prima, mano de obra directa, maquinaria, energía usada en producción.</td>
+                    <td class="col-right">Arriendo de oficinas, sueldos del personal administrativo, publicidad, servicios públicos.</td>
+                </tr>
+                <tr>
+                    <td>Ubicación en los estados financieros</td>
+                    <td class="col-left">Se presentan en el estado de resultados como Costo de Ventas o Costo de Producción.</td>
+                    <td class="col-right">Se presentan en el estado de resultados como gastos de operación (administrativos, ventas, financieros).</td>
+                </tr>
+                <tr>
+                    <td>Impacto</td>
+                    <td class="col-left">Afectan directamente el costo del producto y la utilidad bruta.</td>
+                    <td class="col-right">Afectan la utilidad operativa o neta.</td>
+                </tr>
+                <tr>
+                    <td>Recuperación</td>
+                    <td class="col-left">Se espera recuperar con la venta del producto o servicio.</td>
+                    <td class="col-right">No se recuperan directamente; ayudan a sostener y a garantizar el funcionamiento de la empresa.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

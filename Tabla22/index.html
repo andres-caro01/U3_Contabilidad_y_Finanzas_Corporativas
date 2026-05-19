@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Comparativa - Capital de Trabajo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: top; /* Alineación superior ideal para celdas con mucho texto */
+        }
+
+        /* --- ANCHO PROPORCIONAL DE LAS COLUMNAS --- */
+        th:nth-child(1) { width: 22%; }
+        th:nth-child(2) { width: 39%; }
+        th:nth-child(3) { width: 39%; }
+
+        /* --- ENCABEZADOS --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-align: center;
+            font-size: 14px;
+            padding: 18px 20px;
+            vertical-align: middle;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- CONFIGURACIÓN DE CELDAS --- */
+        .col-concepto {
+            font-weight: 500;
+            text-align: center;
+            vertical-align: middle; /* Centrado vertical solo para la primera columna */
+        }
+
+        .col-contenido {
+            text-align: left;
+        }
+
+        /* --- ESTILOS DE LISTAS INTERNAS --- */
+        .col-contenido ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .col-contenido li {
+            margin-bottom: 6px;
+        }
+
+        .col-contenido li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Alternancia de color en filas */
+        tbody tr:nth-child(even) td {
+            background-color: var(--bg-light);
+        }
+
+        tbody tr:nth-child(even) .col-concepto {
+            background-color: #e6eeee;
+        }
+
+        tbody tr:nth-child(odd) .col-concepto {
+            background-color: #fafbfc;
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* Retrasos secuenciales de carga */
+        tbody tr:nth-child(1) { animation-delay: 0.15s; }
+        tbody tr:nth-child(2) { animation-delay: 0.30s; }
+        tbody tr:nth-child(3) { animation-delay: 0.45s; }
+        tbody tr:nth-child(4) { animation-delay: 0.60s; }
+
+        /* Interactividad Hover */
+        tbody tr {
+            transition: transform 0.2s ease;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.03) !important;
+            cursor: default;
+        }
+
+        tbody tr:hover .col-concepto {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Alto Nivel de Capital de Trabajo</th>
+                    <th>Bajo Nivel de Capital de Trabajo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-concepto">Interpretación</td>
+                    <td class="col-contenido">La empresa tiene exceso de recursos líquidos o corrientes respecto a sus deudas de corto plazo.</td>
+                    <td class="col-contenido">La empresa tiene recursos de corto plazo limitados o insuficientes para cubrir sus deudas inmediatas.</td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Ventajas</td>
+                    <td class="col-contenido">
+                        <ul>
+                            <li>Mayor capacidad de pago inmediato.</li>
+                            <li>Estabilidad financiera.</li>
+                            <li>Posibilidad de invertir y aprovechar descuentos por pronto pago.</li>
+                            <li>Aprovechar oportunidades comerciales inesperadas.</li>
+                            <li>Respaldo en situaciones de emergencia.</li>
+                        </ul>
+                    </td>
+                    <td class="col-contenido">
+                        <ul>
+                            <li>Uso más eficiente de los recursos disponibles.</li>
+                            <li>Mayor apalancamiento con proveedores.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Desventajas</td>
+                    <td class="col-contenido">
+                        <ul>
+                            <li>Recursos ociosos.</li>
+                            <li>Bajo rendimiento financiero si los activos no se invierten productivamente.</li>
+                            <li>Riesgo de sobreacumulación de inventarios.</li>
+                        </ul>
+                    </td>
+                    <td class="col-contenido">
+                        <ul>
+                            <li>Riesgo de iliquidez.</li>
+                            <li>Incumplimiento en pagos.</li>
+                            <li>Dificultades para sostener operaciones y proyectos.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Implicaciones</td>
+                    <td class="col-contenido">Podría reflejar ineficiencia en el uso de recursos, porque el dinero está "quieto" en caja, cuentas por cobrar lentas o inventarios acumulados que no generan rentabilidad.</td>
+                    <td class="col-contenido">Riesgo de retrasos en obras por falta de liquidez para pagar proveedores, nómina o materiales; puede afectar su competitividad.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Categorías e Índices Financieros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* Mantiene proporciones exactas en pantallas de escritorio */
+        }
+
+        th, td {
+            padding: 14px 18px;
+            font-size: 14px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.4;
+            vertical-align: middle;
+        }
+
+        /* --- CONFIGURACIÓN DE COLUMNAS (ANCHO) --- */
+        th:nth-child(1) { width: 22%; }
+        th:nth-child(2) { width: 25%; }
+        th:nth-child(3) { width: 33%; }
+        th:nth-child(4) { width: 20%; }
+
+        /* --- ENCABEZADOS --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-align: center;
+            font-size: 14px;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- ESTILOS DE CELDA --- */
+        .col-categoria {
+            font-weight: 600;
+            text-align: center;
+            background-color: #fafbfc;
+        }
+
+        .col-indice {
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .col-formula {
+            text-align: center;
+            font-style: italic;
+            font-size: 14.5px;
+        }
+
+        .col-fuente {
+            text-align: center;
+        }
+
+        /* --- DISEÑO DE FRACCIONES --- */
+        .formula-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+        }
+
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+        }
+
+        .numerator {
+            border-bottom: 1px solid var(--text-color);
+            padding-bottom: 2px;
+            margin-bottom: 2px;
+        }
+
+        .denominator {
+            padding-top: 2px;
+        }
+
+        /* --- ASIGNACIÓN DE COLORES INTERCALADOS POR SECCIONES --- */
+        /* Celdas pares de forma individual para evitar romper el diseño del rowspan */
+        tr.even-row td:not(.col-categoria) {
+            background-color: var(--bg-light);
+        }
+        
+        tr.even-row .col-categoria {
+            background-color: #e6eeee;
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* Retrasos escalonados para la cascada visual */
+        tbody tr:nth-child(1)  { animation-delay: 0.1s; }
+        tbody tr:nth-child(2)  { animation-delay: 0.18s; }
+        tbody tr:nth-child(3)  { animation-delay: 0.26s; }
+        tbody tr:nth-child(4)  { animation-delay: 0.34s; }
+        tbody tr:nth-child(5)  { animation-delay: 0.42s; }
+        tbody tr:nth-child(6)  { animation-delay: 0.50s; }
+        tbody tr:nth-child(7)  { animation-delay: 0.58s; }
+        tbody tr:nth-child(8)  { animation-delay: 0.66s; }
+        tbody tr:nth-child(9)  { animation-delay: 0.74s; }
+        tbody tr:nth-child(10) { animation-delay: 0.82s; }
+        tbody tr:nth-child(11) { animation-delay: 0.90s; }
+
+        /* Interactividad */
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Índice</th>
+                    <th>Fórmula</th>
+                    <th>Fuente de Información</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-categoria" rowspan="2">Liquidez</td>
+                    <td class="col-indice">Razón corriente</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Activos Corrientes</span>
+                                <span class="denominator">Pasivos Corrientes</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance</td>
+                </tr>
+                <tr class="even-row">
+                    <td class="col-indice">Prueba ácida</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">(Activos Corrientes - Inventarios)</span>
+                                <span class="denominator">Pasivos Corrientes</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance</td>
+                </tr>
+
+                <tr>
+                    <td class="col-categoria" rowspan="2">Apalancamiento o Endeudamiento</td>
+                    <td class="col-indice">Nivel de Endeudamiento</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Pasivos Totales</span>
+                                <span class="denominator">Activos Totales</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance</td>
+                </tr>
+                <tr class="even-row">
+                    <td class="col-indice">Razón de apalancamiento</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Activos Totales</span>
+                                <span class="denominator">Patrimonio</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance</td>
+                </tr>
+
+                <tr>
+                    <td class="col-categoria" rowspan="4">Actividad o eficiencia</td>
+                    <td class="col-indice">Rotación de cuentas por cobrar</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Ventas a crédito</span>
+                                <span class="denominator">Cuentas por cobrar por promedio</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance y Estado de Resultados</td>
+                </tr>
+                <tr class="even-row">
+                    <td class="col-indice">Rotación de inventarios</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Costos de ventas</span>
+                                <span class="denominator">Inventario promedio</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance y Estado de Resultados</td>
+                </tr>
+                <tr>
+                    <td class="col-indice">Rotación de cuentas por pagar</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Compras a crédito</span>
+                                <span class="denominator">Cuentas por cobrar por promedio</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance y Estado de Resultados</td>
+                </tr>
+                <tr class="even-row">
+                    <td class="col-indice">Rotación de activos totales</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Ventas netas</span>
+                                <span class="denominator">Activos totales</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Balance y Estado de Resultados</td>
+                </tr>
+
+                <tr>
+                    <td class="col-categoria" rowspan="3">Rentabilidad</td>
+                    <td class="col-indice">Margen Bruto</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Ganancia Bruta</span>
+                                <span class="denominator">Ingreso de actividades ordinarias</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Estado de Resultados</td>
+                </tr>
+                <tr class="even-row">
+                    <td class="col-indice">Margen operacional</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Ganancias Operacionales</span>
+                                <span class="denominator">Ingreso de actividades ordinarias</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Estado de Resultados</td>
+                </tr>
+                <tr>
+                    <td class="col-indice">Margen neto</td>
+                    <td class="col-formula">
+                        <div class="formula-container">
+                            <div class="fraction">
+                                <span class="numerator">Ganancia Neta</span>
+                                <span class="denominator">Ingreso de actividades ordinarias</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-fuente">Estado de Resultados</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Conceptos y Valores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 16px 24px;
+            font-size: 15px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: middle;
+        }
+
+        /* --- ANCHO DE LAS COLUMNAS --- */
+        th:nth-child(1) { width: 55%; }
+        th:nth-child(2) { width: 45%; }
+
+        /* --- ENCABEZADOS --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-align: center;
+            font-size: 15px;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- CONFIGURACIÓN DE CELDA --- */
+        .col-concepto {
+            text-align: left;
+            font-weight: 400;
+        }
+
+        .col-valor {
+            text-align: right;
+            font-weight: 400;
+            font-variant-numeric: tabular-nums; /* Mantiene los números perfectamente alineados verticalmente */
+            padding-right: 40px; /* Margen interno derecho para despegarlos del borde */
+        }
+
+        /* Alternancia de color en filas */
+        tbody tr:nth-child(even) td {
+            background-color: var(--bg-light);
+        }
+
+        tbody tr:nth-child(even) .col-concepto {
+            background-color: #e6eeee;
+        }
+
+        tbody tr:nth-child(odd) .col-concepto {
+            background-color: #fafbfc;
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* Retrasos secuenciales de carga */
+        tbody tr:nth-child(1) { animation-delay: 0.10s; }
+        tbody tr:nth-child(2) { animation-delay: 0.20s; }
+        tbody tr:nth-child(3) { animation-delay: 0.30s; }
+        tbody tr:nth-child(4) { animation-delay: 0.40s; }
+        tbody tr:nth-child(5) { animation-delay: 0.50s; }
+        tbody tr:nth-child(6) { animation-delay: 0.60s; }
+
+        /* Interactividad Hover */
+        tbody tr {
+            transition: transform 0.2s ease;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            cursor: default;
+        }
+
+        tbody tr:hover .col-concepto {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-concepto">Activos corrientes</td>
+                    <td class="col-valor">$1.200.000.000</td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Pasivos corrientes</td>
+                    <td class="col-valor">$820.000.000</td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Pasivos Total</td>
+                    <td class="col-valor">$1.800.000.000</td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Activos Total</td>
+                    <td class="col-valor">$3.000.000.000</td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Utilidad operacional</td>
+                    <td class="col-valor">$260.000.000</td>
+                </tr>
+                <tr>
+                    <td class="col-concepto">Gastos por intereses</td>
+                    <td class="col-valor">$150.000.000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

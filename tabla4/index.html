@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Balance General</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #004d4d;
+            --section-bg: #407373;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-white);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            font-size: 15px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+        }
+
+        /* Alineación: textos a la izquierda, valores numéricos a la derecha */
+        td:first-child, th:first-child {
+            text-align: left;
+            padding-left: 15%; /* Centrado visual para los conceptos */
+        }
+        
+        td:nth-child(2) {
+            text-align: right;
+            padding-right: 15%; /* Centrado visual para los montos */
+        }
+
+        /* Encabezado Principal Principal */
+        .main-header {
+            background-color: var(--primary-dark);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-align: center !important;
+            padding: 16px;
+        }
+
+        /* Subencabezados de Sección (Activo, Pasivo, Capital) */
+        .section-header {
+            background-color: var(--section-bg);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-align: center !important;
+            padding: 12px;
+        }
+
+        /* Filas intercaladas de contenido */
+        .row-even {
+            background-color: var(--bg-light);
+        }
+
+        /* Estilos para filas de Totales */
+        .total-italics td {
+            font-style: italic;
+        }
+        
+        .total-bold td {
+            font-weight: 700;
+        }
+
+        /* --- ANIMACIONES CSS --- */
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Aplicar animación a las filas del cuerpo */
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        /* Retraso escalonado de las secciones para la entrada fluida */
+        tbody tr:nth-child(1)  { animation-delay: 0.05s; }
+        tbody tr:nth-child(2)  { animation-delay: 0.10s; }
+        tbody tr:nth-child(3)  { animation-delay: 0.15s; }
+        tbody tr:nth-child(4)  { animation-delay: 0.20s; }
+        tbody tr:nth-child(5)  { animation-delay: 0.25s; }
+        tbody tr:nth-child(6)  { animation-delay: 0.30s; }
+        tbody tr:nth-child(7)  { animation-delay: 0.35s; }
+        tbody tr:nth-child(8)  { animation-delay: 0.40s; }
+        tbody tr:nth-child(9)  { animation-delay: 0.45s; }
+        tbody tr:nth-child(10) { animation-delay: 0.50s; }
+        tbody tr:nth-child(11) { animation-delay: 0.55s; }
+        tbody tr:nth-child(12) { animation-delay: 0.60s; }
+        tbody tr:nth-child(13) { animation-delay: 0.65s; }
+
+        /* Efecto Hover interactivo */
+        tbody tr:not(.section-header) {
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        tbody tr:not(.section-header):hover {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            transform: scale(1.005);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            z-index: 10;
+            position: relative;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2" class="main-header">Balance General</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="section-header">
+                    <td colspan="2">Activo</td>
+                </tr>
+                <tr>
+                    <td>Efectivo</td>
+                    <td>$36.000.000</td>
+                </tr>
+                <tr class="row-even">
+                    <td>Cuentas por cobrar</td>
+                    <td>$21.000.000</td>
+                </tr>
+                <tr>
+                    <td>inventario</td>
+                    <td>$55.000.000</td>
+                </tr>
+                <tr class="row-even">
+                    <td>Inmuebles, plantas y equipo neto</td>
+                    <td>$12.000.000</td>
+                </tr>
+                <tr class="total-italics">
+                    <td></td>
+                    <td>$233.000.000</td>
+                </tr>
+
+                <tr class="section-header">
+                    <td colspan="2">Pasivo</td>
+                </tr>
+                <tr>
+                    <td>Cuentas por pagar</td>
+                    <td>$32.000.000</td>
+                </tr>
+                <tr class="row-even">
+                    <td>préstamo bancario</td>
+                    <td>$58.000.000</td>
+                </tr>
+                <tr class="total-italics">
+                    <td></td>
+                    <td>$90.000.000</td>
+                </tr>
+
+                <tr class="section-header">
+                    <td colspan="2">Capital</td>
+                </tr>
+                <tr>
+                    <td>Capital contable</td>
+                    <td>$143.000.000</td>
+                </tr>
+                <tr class="row-even">
+                    <td>Total capital contable</td>
+                    <td>$143.000.000</td>
+                </tr>
+                <tr class="total-bold">
+                    <td>Total pasivo y capital contable</td>
+                    <td>$233.000.000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

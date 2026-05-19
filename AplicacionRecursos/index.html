@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider de Aplicaciones de Efectivo</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(20, 28, 45, 0.6);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent-green: #30d158;
+            --accent-green-glow: rgba(48, 209, 88, 0.15);
+            --apple-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--apple-font);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(48, 209, 88, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(48, 209, 88, 0.03) 0%, transparent 40%);
+        }
+
+        .slider-container {
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 480px;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(0.96) translateY(10px);
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        /* Glassmorphism Card Style */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 48px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .instruction-tag {
+            position: absolute;
+            top: 24px;
+            right: 48px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 6px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            letter-spacing: -0.1px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+            margin-top: 12px; /* Espacio para evitar solapamiento con la instrucción */
+            max-width: 70%; /* Evita que el título choque con la instrucción en pantallas medianas */
+        }
+
+        .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: var(--accent-green-glow);
+            border-radius: 50%;
+            border: 1px solid rgba(48, 209, 88, 0.3);
+            color: var(--accent-green);
+            flex-shrink: 0;
+        }
+
+        .icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            line-height: 1.25;
+        }
+
+        .card-content {
+            flex-grow: 1;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .main-text {
+            color: #e8e8ed;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        .list-items {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .list-items li {
+            position: relative;
+            padding-left: 24px;
+            color: #d2d2d7;
+            font-size: 15px;
+        }
+
+        .list-items li::before {
+            content: "•";
+            position: absolute;
+            left: 6px;
+            color: var(--accent-green);
+            font-weight: bold;
+            font-size: 18px;
+            top: -1px;
+        }
+
+        /* Navigation Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 28px;
+            padding: 0 8px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(48, 209, 88, 0.2);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            transform: scale(1.05);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .indicators {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .dot.active {
+            background: var(--accent-green);
+            width: 24px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--accent-green-glow);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .card {
+                padding: 32px 24px;
+            }
+            .instruction-tag {
+                position: static;
+                margin-bottom: 16px;
+                display: inline-block;
+                text-align: left;
+            }
+            .card-header {
+                max-width: 100%;
+                margin-top: 0;
+            }
+            .slider-wrapper {
+                min-height: 560px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slider-container">
+        <div class="slider-wrapper">
+            
+            <div class="slide active">
+                <div class="card">
+                    <div class="instruction-tag">Haga clic sobre los botones para navegar y ampliar la información.</div>
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
+                        <h2>Incremento de otro activo distinto al efectivo</h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="main-text">El incremento de otro activo distinto al efectivo (por ejemplo, compra de inventarios, maquinaria o cuentas por cobrar). Esta operación no disminuye (activos, pasivos y patrimonio)</p>
+                        <ul class="list-items">
+                            <li>Efectivo → Propiedad, planta y equipo</li>
+                            <li>Efectivo → Inventarios</li>
+                            <li>Efectivo → Inversiones temporales (CDT)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="card">
+                    <div class="instruction-tag">Haga clic sobre los botones para navegar y ampliar la información.</div>
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
+                        <h2>Disminución de pasivos</h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="main-text">La disminución de pasivos (como el pago de deudas o préstamos). Esta operación disminuye activos y (pasivos+patrimonio)</p>
+                        <ul class="list-items">
+                            <li>Efectivo → Impuesto</li>
+                            <li>Efectivo → Pago a un banco</li>
+                            <li>Efectivo → Pago a proveedor</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
+                        <h2>Disposición de patrimonio</h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="main-text">La disposición de patrimonio por parte de los propietarios (como retiros de utilidades o dividendos pagados) (Gitman & Zutter, 2012).</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="controls">
+            <button class="nav-btn" id="prevBtn" aria-label="Anterior">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            
+            <div class="indicators" id="indicators">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+            </div>
+
+            <button class="nav-btn" id="nextBtn" aria-label="Siguiente">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentSlide = 0;
+
+        function updateSlider(index) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (index + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        nextBtn.addEventListener('click', () => {
+            updateSlider(currentSlide + 1);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            updateSlider(currentSlide - 1);
+        });
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const index = parseInt(e.target.getAttribute('data-index'));
+                updateSlider(index);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                updateSlider(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft') {
+                updateSlider(currentSlide - 1);
+            }
+        });
+    </script>
+</body>
+</html>

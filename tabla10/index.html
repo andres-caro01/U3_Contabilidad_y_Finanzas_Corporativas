@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Partidas Contables</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        /* Centrado absoluto en la ventana del navegador */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            perspective: 1000px; /* Habilita el entorno 3D para las animaciones */
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 18px;
+            font-size: 14px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        /* Estilos de encabezado */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-align: center;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* Formatos de columnas específicas */
+        tbody td:first-child {
+            font-weight: 500;
+            width: 25%;
+        }
+        
+        tbody td:nth-child(2) {
+            width: 25%;
+        }
+
+        tbody td:last-child {
+            width: 50%;
+        }
+
+        /* Filas intercaladas */
+        tbody tr:nth-child(even) {
+            background-color: var(--bg-light);
+        }
+
+        /* --- NUEVAS ANIMACIONES AVANZADAS --- */
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes flipInX {
+            from {
+                transform: rotateX(45deg);
+                opacity: 0;
+            }
+            to {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Aplicar rotación 3D suave en cascada para cada fila */
+        tbody tr {
+            opacity: 0;
+            transform-origin: top;
+            animation: flipInX 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Retrasos escalonados e individuales para las 10 filas */
+        tbody tr:nth-child(1)  { animation-delay: 0.15s; }
+        tbody tr:nth-child(2)  { animation-delay: 0.25s; }
+        tbody tr:nth-child(3)  { animation-delay: 0.35s; }
+        tbody tr:nth-child(4)  { animation-delay: 0.45s; }
+        tbody tr:nth-child(5)  { animation-delay: 0.55s; }
+        tbody tr:nth-child(6)  { animation-delay: 0.65s; }
+        tbody tr:nth-child(7)  { animation-delay: 0.75s; }
+        tbody tr:nth-child(8)  { animation-delay: 0.85s; }
+        tbody tr:nth-child(9)  { animation-delay: 0.95s; }
+        tbody tr:nth-child(10) { animation-delay: 1.05s; }
+
+        /* --- INTERACCIÓN INTERACTIVA (HOVER) --- */
+        tbody tr {
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 77, 77, 0.04) !important;
+            transform: scale(1.003) translateZ(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            z-index: 10;
+            position: relative;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Partida en Español</th>
+                    <th>Partida en Inglés</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ingresos / Ventas Netas</td>
+                    <td>Revenue / Net Sales</td>
+                    <td>Ingresos totales de la empresa por la venta de bienes o servicios, menos devoluciones, descuentos o rebajas.</td>
+                </tr>
+                <tr>
+                    <td>(-) Costo de Ventas</td>
+                    <td>Cost of Goods Sold (COGS)</td>
+                    <td>Costos directamente asociados con la producción o adquisición de los bienes vendidos o servicios prestados.</td>
+                </tr>
+                <tr>
+                    <td>Utilidad Bruta</td>
+                    <td>Gross Profit</td>
+                    <td>Diferencia entre las ventas netas y el costo de ventas. Representa el margen bruto de la empresa.</td>
+                </tr>
+                <tr>
+                    <td>(-) Gastos Operativos</td>
+                    <td>Operating Expenses</td>
+                    <td>Gastos necesarios para la operación de la empresa, como salarios, alquileres, marketing, etc.</td>
+                </tr>
+                <tr>
+                    <td>(-) Depreciación y Amortización</td>
+                    <td>Depreciation and Amortization</td>
+                    <td>Gastos no en efectivo que reflejan la disminución del valor de los activos fijos e intangibles.</td>
+                </tr>
+                <tr>
+                    <td>Utilidad antes de intereses e impuestos (EBIT) o Utilidad Operativa</td>
+                    <td>Earnings Before Interest and Taxes (EBIT) / Operating Income / Operating Profit</td>
+                    <td>Utilidad de la empresa antes de tomar en cuenta los intereses pagados y los impuestos.</td>
+                </tr>
+                <tr>
+                    <td>(-) Gastos Financieros</td>
+                    <td>Financial Expenses / Interest Expense</td>
+                    <td>Gastos relacionados con la deuda de la empresa, como el pago de intereses.</td>
+                </tr>
+                <tr>
+                    <td>(+/-) Otros ingresos/egresos</td>
+                    <td>Other Income / Expenses</td>
+                    <td>Ingresos o gastos no operativos, como ganancias o pérdidas por la venta de activos, inversiones, etc.</td>
+                </tr>
+                <tr>
+                    <td>Utilidad antes de impuestos (EBT)</td>
+                    <td>Earnings Before Taxes (EBT)</td>
+                    <td>Utilidad de la empresa después de deducir los gastos financieros, pero antes de restar los impuestos.</td>
+                </tr>
+                <tr>
+                    <td>(-) Impuestos sobre la Renta</td>
+                    <td>Income Tax Expense</td>
+                    <td>Los impuestos que la empresa debe pagar sobre su utilidad.</td>
+                </tr>
+                <tr>
+                    <td>Utilidad Neta</td>
+                    <td>Net Income</td>
+                    <td>La ganancia final de la empresa después de restar todos los gastos, incluyendo los financieros y los impuestos.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

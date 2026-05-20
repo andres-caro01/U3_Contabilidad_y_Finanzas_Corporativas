@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio de Repaso - Contabilidad y Finanzas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root {
+            /* Color personalizado solicitado: 054C50 */
+            --primary: #054C50;
+            --primary-dark: #03363a;
+            --primary-light: #e6f0f1;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f4f4;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        #main-container {
+            width: 95%;
+            max-width: 1000px;
+            height: 850px; 
+            background: white;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(5, 76, 80, 0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 3rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) #f1f1f1;
+        }
+
+        .text-custom { color: var(--primary); }
+        .bg-custom { background-color: var(--primary); }
+
+        .btn-action {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 3.5rem;
+            border-radius: 99px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+        }
+        .btn-action:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(5, 76, 80, 0.3);
+        }
+
+        .option-card {
+            transition: all 0.2s ease;
+            border: 2px solid #f1f5f9;
+            cursor: pointer;
+        }
+        
+        .option-card.selected {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .option-card.locked { pointer-events: none; }
+
+        /* Estilos específicos para la tabla de asociación */
+        .drop-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            min-height: 60px;
+            transition: all 0.3s;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        .drop-zone.active { border-color: var(--primary); background: var(--primary-light); }
+        
+        .drag-item {
+            background: white;
+            border: 2px solid var(--primary);
+            padding: 6px 14px;
+            border-radius: 10px;
+            cursor: grab;
+            font-weight: 600;
+            font-size: 15px;
+            margin: 3px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            color: var(--primary);
+        }
+
+        .circle-bar { 
+            fill: none; 
+            stroke: var(--primary); 
+            stroke-width: 10; 
+            stroke-linecap: round; 
+            transition: stroke-dashoffset 1.5s ease-out;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="main-container">
+        
+        <div id="screen-start" class="scroll-content flex flex-col items-center justify-center text-center animate__animated animate__fadeIn">
+            <h1 class="text-5xl font-bold text-custom mb-6 leading-tight">Ejercicios de Repaso</h1>
+            <p class="mb-4 text-slate-600 font-semibold">Contabilidad y Finanzas</p>
+            <p class="mb-12 max-w-2xl text-slate-500 text-xl">Evalúa tus conocimientos sobre estados financieros, conceptos contables clave e indicadores financieros.</p>
+            <button onclick="startQuiz()" class="btn-action text-xl shadow-lg">INICIAR REPASO</button>
+        </div>
+
+        <div id="screen-quiz" class="hidden flex flex-col h-full">
+            <div class="px-14 pt-10 flex justify-between items-center bg-white z-10">
+                <span id="q-number" class="font-bold text-custom text-sm tracking-widest uppercase"></span>
+                <div class="w-48 h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progress-fill" class="h-full bg-custom transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="scroll-content" id="quiz-body">
+                <p id="q-instruction" class="text-custom font-bold italic mb-4 text-base"></p>
+                <h2 id="q-text" class="text-xl font-semibold mb-8 leading-snug text-slate-800 border-l-4 border-[#054C50] pl-4 py-2 bg-slate-50"></h2>
+
+                <div id="options-container" class="space-y-4"></div>
+
+                <div id="association-container" class="hidden">
+                    <div class="mb-6 p-4 bg-slate-100 rounded-2xl">
+                        <p class="text-sm font-bold mb-3 uppercase text-slate-500">Banco de Conceptos:</p>
+                        <div id="drag-bank" class="flex flex-wrap gap-3"></div>
+                    </div>
+                    <div class="max-h-[380px] overflow-y-auto border border-slate-200 rounded-2xl">
+                        <table class="w-full border-collapse">
+                            <thead class="sticky top-0 bg-slate-50">
+                                <tr class="text-left">
+                                    <th class="p-4 border-b text-sm font-bold text-slate-600 w-2/3">Definición</th>
+                                    <th class="p-4 border-b text-sm font-bold text-slate-600 w-1/3">Concepto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="feedback-box" class="hidden mt-6 p-6 rounded-3xl border-2 animate__animated animate__fadeInUp">
+                    <p id="feedback-title" class="font-bold text-xl mb-2"></p>
+                    <div id="feedback-body" class="text-base leading-relaxed text-slate-700"></div>
+                    <button id="btn-continue" onclick="nextStep()" class="mt-4 bg-slate-800 text-white px-10 py-2 rounded-xl hover:bg-black transition-all font-bold">Continuar</button>
+                </div>
+
+                <button id="btn-validate" onclick="validateAnswer()" class="btn-action w-full mt-8 shadow-xl text-lg">Validar Respuesta</button>
+            </div>
+        </div>
+
+        <div id="screen-results" class="hidden scroll-content flex flex-col items-center justify-center text-center">
+            <h2 class="text-4xl font-bold mb-4 text-custom">Resultado Final</h2>
+            <div class="relative flex items-center justify-center my-6">
+                <svg class="w-64 h-64 -rotate-90">
+                    <circle cx="128" cy="128" r="110" stroke="#f1f5f9" stroke-width="10" fill="none"></circle>
+                    <circle id="final-circle" cx="128" cy="128" r="110" class="circle-bar" stroke-dasharray="691" stroke-dashoffset="691"></circle>
+                </svg>
+                <div class="absolute text-6xl font-black text-slate-800"><span id="result-percent">0</span>%</div>
+            </div>
+            <p id="result-score" class="text-2xl font-bold mb-4 text-slate-700"></p>
+            <div id="result-msg" class="max-w-2xl mb-8 p-6 bg-slate-50 rounded-3xl italic text-slate-600"></div>
+            <button onclick="location.reload()" class="btn-action">Reiniciar Ejercicio</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                type: "table",
+                instruction: "1. Relacione cada concepto con su definición correcta",
+                question: "Arrastre cada concepto desde el banco hacia la casilla correspondiente en la tabla de definiciones.",
+                mapping: [
+                    {cat: "Representa los recursos económicos que posee una empresa y de los cuales espera obtener beneficios futuros.", correct: "activo"},
+                    {cat: "Corresponde a las obligaciones financieras que tiene una empresa con terceros, como préstamos, proveedores o impuestos por pagar.", correct: "pasivo"},
+                    {cat: "Es la disminución sistemática en el valor de un activo tangible debido al uso, desgaste o paso del tiempo.", correct: "depreciación"},
+                    {cat: "Se refiere a la distribución del costo de un activo intangible (como una patente o derecho) a lo largo de su vida útil.", correct: "amortización"},
+                    {cat: "Es el valor que se espera obtener por la venta o disposición de un activo al finalizar su vida útil.", correct: "valor residual o de salvamento"},
+                    {cat: "Se obtiene al restar del costo de adquisición de un activo la depreciación o amortización acumulada hasta la fecha.", correct: "Valor en libros"},
+                    {cat: "Representa la mejor alternativa que se sacrifica al elegir una opción de inversión o decisión económica sobre otra.", correct: "costo de oportunidad"}
+                ],
+                feedback: "<strong>Realimentación:</strong><br>• Recuerde que depreciación y amortización se aplican a distintos tipos de activos (tangibles e intangibles).<br>• El valor residual y el valor en libros son medidas que ayudan a precisar cuánto vale realmente un activo en determinado momento.<br>• El costo de oportunidad es vital en la toma de decisiones de proyectos.<br>• Finalmente, activos y pasivos son la base del balance general y muestran qué tiene y qué debe una empresa."
+            },
+            {
+                type: "vf",
+                instruction: "2. Seleccione Verdadero o Falso",
+                question: "Los cuatro estados financieros básicos son: el estado de resultados, el balance general, el estado de utilidades retenidas y el estado de flujos de efectivo.",
+                options: [{t: "Verdadero", c: false}, {t: "Falso", c: true}],
+                feedback: "<strong>Realimentación:</strong> El tercer informe no se llama Estado de utilidades retenidas, sino Estado de variaciones en el capital contable. Los cuatro estados financieros básicos son: estado de resultados, balance general, estado de variaciones en el capital contable y estado de flujos de efectivo."
+            },
+            {
+                type: "vf",
+                instruction: "3. Seleccione Verdadero o Falso",
+                question: "El estado de flujos de efectivo presenta únicamente las entradas y salidas de dinero relacionadas con la operación de la empresa.",
+                options: [{t: "Verdadero", c: false}, {t: "Falso", c: true}],
+                feedback: "<strong>Realimentación:</strong> El estado de flujos de efectivo clasifica los movimientos en tres actividades: operación, inversión y financiamiento, no solo en operaciones. Esto permite conocer la capacidad de la empresa para generar y administrar efectivo."
+            },
+            {
+                type: "ms",
+                instruction: "4. Seleccione la respuesta correcta",
+                question: "La empresa Constructora Andina S.A.S., dedicada a proyectos de infraestructura, presenta la siguiente información financiera: Pasivos totales: 488 millones; Activos totales: 899 millones; Ganancias operacionales: 266 millones; Ingresos de actividades ordinarias: 1.500 millones. Con base en estos datos, se requiere calcular el nivel de endeudamiento y el margen operacional de la compañía. ¿Cuál de las siguientes respuestas es correcta?",
+                options: [
+                    {t: "a) Nivel de endeudamiento = 54,28 % y Margen operacional = 17,7 %", c: true},
+                    {t: "b) Nivel de endeudamiento = 45,72 % y Margen operacional = 17,7 %", c: false},
+                    {t: "c) Nivel de endeudamiento = 54,28 % y Margen operacional = 25,6 %", c: false},
+                    {t: "d) Nivel de endeudamiento = 45,72 % y Margen operacional = 25,6 %", c: false}
+                ],
+                feedback: "<strong>Realimentación:</strong><br>• Nivel de endeudamiento = Pasivos totales / Activos totales = 488 / 899 = 0,5428 → 54,28 %<br>• Margen operacional = Ganancias operacionales (EBIT) / Ingreso de actividades ordinarias = 266 / 1.500 = 0,177 → 17,7 %"
+            }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let totalPossible = 10; // 7 (Tabla) + 1 (VF) + 1 (VF) + 1 (MS)
+
+        function startQuiz() {
+            document.getElementById('screen-start').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = quizData[currentIdx];
+            document.getElementById('q-number').innerText = `PREGUNTA ${currentIdx + 1}/${quizData.length}`;
+            document.getElementById('progress-fill').style.width = `${((currentIdx + 1)/quizData.length)*100}%`;
+            document.getElementById('q-instruction').innerText = q.instruction;
+            document.getElementById('q-text').innerText = q.question;
+            document.getElementById('feedback-box').classList.add('hidden');
+            document.getElementById('btn-validate').classList.remove('hidden');
+            
+            const optContainer = document.getElementById('options-container');
+            const tableContainer = document.getElementById('association-container');
+            
+            optContainer.innerHTML = '';
+            tableContainer.classList.add('hidden');
+            optContainer.classList.add('hidden');
+
+            if(q.type === 'table') {
+                tableContainer.classList.remove('hidden');
+                setupTableQuestion(q);
+            } else {
+                optContainer.classList.remove('hidden');
+                q.options.forEach((opt, i) => {
+                    const d = document.createElement('div');
+                    d.className = "option-card flex items-center p-5 rounded-2xl mb-3";
+                    d.innerHTML = `
+                        <input type="radio" name="ans" id="o${i}" value="${i}" class="w-6 h-6 accent-[#054C50]">
+                        <label for="o${i}" class="ml-4 w-full cursor-pointer font-semibold text-lg text-slate-700">${opt.t}</label>
+                    `;
+                    d.onclick = () => {
+                        document.querySelectorAll('.option-card').forEach(el => el.classList.remove('selected'));
+                        d.classList.add('selected');
+                        d.querySelector('input').checked = true;
+                    };
+                    optContainer.appendChild(d);
+                });
+            }
+        }
+
+        function setupTableQuestion(q) {
+            const bank = document.getElementById('drag-bank');
+            const tbody = document.getElementById('table-body');
+            bank.innerHTML = '';
+            tbody.innerHTML = '';
+
+            const concepts = q.mapping.map(m => m.correct).sort(() => Math.random() - 0.5);
+            concepts.forEach(s => {
+                const item = document.createElement('div');
+                item.className = 'drag-item';
+                item.draggable = true;
+                item.innerText = s;
+                item.ondragstart = (e) => e.dataTransfer.setData('text', s);
+                bank.appendChild(item);
+            });
+
+            q.mapping.forEach((m, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="p-4 text-base text-slate-700 font-normal">${m.cat}</td>
+                    <td class="p-4">
+                        <div class="drop-zone" data-index="${idx}" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+                            <span class="text-slate-400 text-sm italic">Arrastre aquí</span>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function allowDrop(e) { e.preventDefault(); e.target.closest('.drop-zone').classList.add('active'); }
+        function dragLeave(e) { e.target.closest('.drop-zone').classList.remove('active'); }
+        function drop(e) {
+            e.preventDefault();
+            const zone = e.target.closest('.drop-zone');
+            zone.classList.remove('active');
+            const data = e.dataTransfer.getData('text');
+            
+            const existing = zone.querySelector('.drag-item');
+            if(existing) document.getElementById('drag-bank').appendChild(existing);
+
+            const newItem = document.createElement('div');
+            newItem.className = 'drag-item';
+            newItem.innerText = data;
+            newItem.draggable = true;
+            newItem.ondragstart = (ev) => {
+                ev.dataTransfer.setData('text', data);
+                setTimeout(() => newItem.remove(), 0);
+            };
+            
+            zone.innerHTML = '';
+            zone.appendChild(newItem);
+        }
+
+        function validateAnswer() {
+            const q = quizData[currentIdx];
+            let isCorrect = false;
+            let subScore = 0;
+
+            if(q.type === 'table') {
+                const zones = document.querySelectorAll('.drop-zone');
+                let allPlaced = true;
+                
+                zones.forEach((zone, idx) => {
+                    const item = zone.querySelector('.drag-item');
+                    if(!item) allPlaced = false;
+                    else if(item.innerText.toLowerCase() === q.mapping[idx].correct.toLowerCase()) subScore++;
+                });
+
+                if(!allPlaced) { alert("Por favor, asocie todos los conceptos antes de validar."); return; }
+                
+                score += subScore;
+                isCorrect = (subScore === 7);
+                document.getElementById('drag-bank').parentElement.classList.add('hidden');
+                document.querySelectorAll('.drop-zone').forEach(z => z.style.pointerEvents = 'none');
+            } else {
+                const sel = document.querySelector('input[name="ans"]:checked');
+                if(!sel) return;
+                isCorrect = q.options[sel.value].c;
+                if(isCorrect) score++;
+                document.querySelectorAll('.option-card').forEach(el => el.classList.add('locked'));
+            }
+            
+            const fBox = document.getElementById('feedback-box');
+            fBox.classList.remove('hidden', 'bg-green-50', 'border-green-200', 'bg-red-50', 'border-red-200');
+            document.getElementById('btn-validate').classList.add('hidden');
+
+            const fTitle = document.getElementById('feedback-title');
+            if(isCorrect) {
+                fTitle.innerText = "¡Correcto!";
+                fTitle.className = "font-bold text-xl text-green-700";
+                fBox.classList.add('bg-green-50', 'border-green-200');
+            } else {
+                fTitle.innerText = q.type === 'table' ? `Obtuviste ${subScore} de 7 puntos` : "Incorrecto";
+                fTitle.className = "font-bold text-xl text-red-700";
+                fBox.classList.add('bg-red-50', 'border-red-200');
+            }
+            
+            document.getElementById('feedback-body').innerHTML = q.feedback;
+        }
+
+        function nextStep() {
+            currentIdx++;
+            if(currentIdx < quizData.length) renderQuestion();
+            else showResults();
+        }
+
+        function showResults() {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-results').classList.remove('hidden');
+            
+            const percent = Math.round((score / totalPossible) * 100);
+            const circumference = 691;
+            const offset = circumference - (percent / 100) * circumference;
+            
+            document.getElementById('final-circle').style.strokeDashoffset = offset;
+            
+            let count = 0;
+            const timer = setInterval(() => {
+                if(count >= percent) {
+                    document.getElementById('result-percent').innerText = percent;
+                    clearInterval(timer);
+                } else {
+                    count++;
+                    document.getElementById('result-percent').innerText = count;
+                }
+            }, 20);
+
+            document.getElementById('result-score').innerText = `Puntaje Total: ${score} de ${totalPossible} puntos`;
+            const msg = document.getElementById('result-msg');
+            if(percent === 100) msg.innerText = "¡Excelente! Has demostrado un dominio absoluto de todos los conceptos contables y financieros analizados.";
+            else if(percent >= 70) msg.innerText = "¡Buen trabajo! Tienes bases sólidas en balance, estados de flujos e indicadores de rendimiento.";
+            else msg.innerText = "Te recomendamos repasar las diferencias de cálculo de márgenes y la estructura del capital contable.";
+        }
+    </script>
+</body>
+</html>

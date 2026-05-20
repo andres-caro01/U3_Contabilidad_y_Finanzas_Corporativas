@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Comparativa de Costos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+            vertical-align: top; /* Alineación superior ideal para celdas con bloques de texto */
+        }
+
+        /* --- ANCHO PROPORCIONAL DE LAS COLUMNAS --- */
+        th:nth-child(1) { width: 20%; }
+        th:nth-child(2) { width: 40%; }
+        th:nth-child(3) { width: 40%; }
+
+        /* --- ENCABEZADOS --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-align: center;
+            font-size: 14px;
+            padding: 18px 20px;
+            vertical-align: middle;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- CONFIGURACIÓN DE CELDAS --- */
+        .col-criterio {
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .col-contenido {
+            text-align: left;
+        }
+
+        /* Alternancia de color en filas */
+        tbody tr:nth-child(even) td {
+            background-color: var(--bg-light);
+        }
+
+        tbody tr:nth-child(even) .col-criterio {
+            background-color: #e6eeee;
+        }
+
+        tbody tr:nth-child(odd) .col-criterio {
+            background-color: #fafbfc;
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* Retrasos secuenciales de carga en cascada */
+        tbody tr:nth-child(1) { animation-delay: 0.10s; }
+        tbody tr:nth-child(2) { animation-delay: 0.20s; }
+        tbody tr:nth-child(3) { animation-delay: 0.30s; }
+        tbody tr:nth-child(4) { animation-delay: 0.40s; }
+        tbody tr:nth-child(5) { animation-delay: 0.50s; }
+        tbody tr:nth-child(6) { animation-delay: 0.60s; }
+
+        /* Interactividad Hover */
+        tbody tr {
+            transition: transform 0.2s ease;
+        }
+
+        tbody tr:hover td {
+            background-color: rgba(0, 77, 77, 0.03) !important;
+            cursor: default;
+        }
+
+        tbody tr:hover .col-criterio {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Criterio</th>
+                    <th>Costos Preoperativos</th>
+                    <th>Costos Hundidos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-criterio">Definición</td>
+                    <td class="col-contenido">Costos incurridos antes de que un proyecto o negocio inicie operaciones, necesarios para su puesta en marcha.</td>
+                    <td class="col-contenido">Costos ya incurridos que no pueden recuperarse, independientemente de si el proyecto continúa o no.</td>
+                </tr>
+                <tr>
+                    <td class="col-criterio">Momento en que ocurren</td>
+                    <td class="col-contenido">Antes del inicio de operaciones normales del negocio o proyecto.</td>
+                    <td class="col-contenido">Pueden ocurrir en cualquier momento del ciclo de vida del proyecto. Pero su característica principal es que ya se han incurrido y no pueden recuperarse.</td>
+                </tr>
+                <tr>
+                    <td class="col-criterio">Ejemplos</td>
+                    <td class="col-contenido">Estudios de factibilidad, licencias, gastos de constitución, capacitación inicial.</td>
+                    <td class="col-contenido">Estudios de viabilidad o evaluación del terreno, costos de consultoría y asesoramiento iniciales, permisos y licencias iniciales.</td>
+                </tr>
+                <tr>
+                    <td class="col-criterio">Temporalidad</td>
+                    <td class="col-contenido">Antes de que comience la operación normal de un negocio.</td>
+                    <td class="col-contenido">En cualquier momento, pero ya incurridos y sin posibilidad de recuperación.</td>
+                </tr>
+                <tr>
+                    <td class="col-criterio">Recuperabilidad</td>
+                    <td class="col-contenido">Pueden tener valor futuro a través de capitalización y amortización.</td>
+                    <td class="col-contenido">No tienen valor recuperable en el futuro.</td>
+                </tr>
+                <tr>
+                    <td class="col-criterio">Relevancia para la toma de decisiones</td>
+                    <td class="col-contenido">Relevantes para evaluar la viabilidad y preparación del negocio, afectan los flujos de caja proyectados.</td>
+                    <td class="col-contenido">No deben influir en decisiones futuras, pues no afectan los flujos de caja futuros.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

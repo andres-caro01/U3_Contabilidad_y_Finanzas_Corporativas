@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructura de Proyecciones Financieras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #004d4d;
+            --bg-light: #e0ebeb;
+            --bg-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #d1e0e0;
+            --sign-plus: #4ab34a;
+            --sign-minus: #e60000;
+            --sign-equal: #9966ff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f7;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1100px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 10px 14px;
+            font-size: 13.5px;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            line-height: 1.4;
+            vertical-align: middle;
+        }
+
+        /* --- ANCHO DE COLUMNAS --- */
+        th:nth-child(1), td:nth-child(1) { width: 10%; text-align: center; } /* Signo */
+        th:nth-child(2), td:nth-child(2) { width: 42%; text-align: left; }   /* Estado/Concepto */
+        th:nth-child(3), td:nth-child(3) { width: 12%; text-align: center; } /* Año 0 */
+        th:nth-child(4), td:nth-child(4) { width: 12%; text-align: center; } /* Año 1 */
+        th:nth-child(5), td:nth-child(5) { width: 12%; text-align: center; } /* Año 2 */
+        th:nth-child(6), td:nth-child(6) { width: 12%; text-align: center; } /* Año N... */
+
+        /* --- ENCABEZADOS PRINCIPALES --- */
+        thead th {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 13px;
+            padding: 14px;
+            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        /* --- SUB-HEADER SECCIONES --- */
+        .sub-header {
+            background-color: #eaeaea !important;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #222222;
+        }
+        .sub-header td {
+            text-align: left !important;
+            padding: 12px 14px;
+        }
+
+        /* --- TOTALES O RESULTADOS DESTACADOS --- */
+        .row-total {
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* --- SIGNOS OPERACIONALES --- */
+        .sign {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .sign-plus { color: var(--sign-plus); }
+        .sign-minus { color: var(--sign-minus); }
+        .sign-equal { color: var(--sign-equal); }
+        .sign-mixed { font-weight: 600; }
+        .sign-mixed span:first-child { color: var(--sign-plus); }
+        .sign-mixed span:last-child { color: var(--sign-minus); }
+
+        /* Alternancia de color en filas de datos convencionales */
+        tbody tr:nth-child(even):not(.sub-header) td {
+            background-color: var(--bg-light);
+        }
+        tbody tr:nth-child(odd):not(.sub-header) td {
+            background-color: var(--bg-white);
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        tbody tr {
+            opacity: 0;
+            animation: fadeInUp 0.4s ease forwards;
+        }
+
+        /* Bucle CSS integrado para generar la cascada secuencial automáticamente */
+        tbody tr:nth-child(1)  { animation-delay: 0.02s; }
+        tbody tr:nth-child(2)  { animation-delay: 0.04s; }
+        tbody tr:nth-child(3)  { animation-delay: 0.06s; }
+        tbody tr:nth-child(4)  { animation-delay: 0.08s; }
+        tbody tr:nth-child(5)  { animation-delay: 0.10s; }
+        tbody tr:nth-child(6)  { animation-delay: 0.12s; }
+        tbody tr:nth-child(7)  { animation-delay: 0.14s; }
+        tbody tr:nth-child(8)  { animation-delay: 0.16s; }
+        tbody tr:nth-child(9)  { animation-delay: 0.18s; }
+        tbody tr:nth-child(10) { animation-delay: 0.20s; }
+        tbody tr:nth-child(11) { animation-delay: 0.22s; }
+        tbody tr:nth-child(12) { animation-delay: 0.24s; }
+        tbody tr:nth-child(13) { animation-delay: 0.26s; }
+        tbody tr:nth-child(14) { animation-delay: 0.28s; }
+        tbody tr:nth-child(15) { animation-delay: 0.30s; }
+        tbody tr:nth-child(16) { animation-delay: 0.32s; }
+        tbody tr:nth-child(17) { animation-delay: 0.34s; }
+        tbody tr:nth-child(18) { animation-delay: 0.36s; }
+        tbody tr:nth-child(19) { animation-delay: 0.38s; }
+        tbody tr:nth-child(20) { animation-delay: 0.40s; }
+        tbody tr:nth-child(21) { animation-delay: 0.42s; }
+        tbody tr:nth-child(22) { animation-delay: 0.44s; }
+        tbody tr:nth-child(23) { animation-delay: 0.46s; }
+        tbody tr:nth-child(24) { animation-delay: 0.48s; }
+        tbody tr:nth-child(25) { animation-delay: 0.50s; }
+        tbody tr:nth-child(26) { animation-delay: 0.52s; }
+
+        /* Efecto Hover */
+        tbody tr:not(.sub-header):hover td {
+            background-color: rgba(0, 77, 77, 0.03) !important;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Signo</th>
+                    <th>Estado de Resultados</th>
+                    <th>Año 0</th>
+                    <th>Año 1</th>
+                    <th>Año 2</th>
+                    <th>Año N...</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="sign sign-plus">(+)</td>
+                    <td>Ingresos del periodo</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Costo de ventas</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-equal">(=)</td>
+                    <td>Utilidad Bruta</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Gastos operacionales</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Depreciaciones y amortizaciones</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-equal">(=)</td>
+                    <td>Utilidad Operacional</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Intereses</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-mixed"><span class="sign-plus">(+)</span>/<span class="sign-minus">(-)</span></td>
+                    <td>Otros ingresos/egresos</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-equal">(=)</td>
+                    <td>Utilidad antes de impuestos</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Impuestos</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-equal">(=)</td>
+                    <td>Utilidad Neta</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr class="sub-header">
+                    <td>Signo</td>
+                    <td colspan="5">Flujo de Caja – Método Indirecto</td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-plus">(+)</td>
+                    <td>Utilidad Neta</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-plus">(+)</td>
+                    <td>Depreciaciones y amortizaciones</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-mixed"><span class="sign-plus">(+)</span>/<span class="sign-minus">(-)</span></td>
+                    <td>Variación en el capital de trabajo</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-equal">(=)</td>
+                    <td>Flujo de caja de operación</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Inversiones en activos</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-plus">(+)</td>
+                    <td>Venta de activos</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-mixed"><span class="sign-plus">(+)</span>/<span class="sign-minus">(-)</span></td>
+                    <td>Efecto tributario de ventas</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-equal">(=)</td>
+                    <td>Flujo de caja libre</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-plus">(+)</td>
+                    <td>Desembolsos de préstamos</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Abono a capital</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="sign sign-minus">(-)</td>
+                    <td>Costo de oportunidad</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row-total">
+                    <td class="sign sign-equal">(=)</td>
+                    <td>Flujo de caja del accionista</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

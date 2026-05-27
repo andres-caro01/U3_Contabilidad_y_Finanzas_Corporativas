@@ -59,7 +59,7 @@
             padding-right: 15%; /* Centrado visual para los montos */
         }
 
-        /* Encabezado Principal Principal */
+        /* Encabezado Principal (Balance General) */
         .main-header {
             background-color: var(--primary-dark);
             color: var(--bg-white);
@@ -68,17 +68,19 @@
             letter-spacing: 1px;
             text-align: center !important;
             padding: 16px;
+            padding-left: 20px !important; /* Resetea el padding de 15% para centrar perfectamente */
         }
 
         /* Subencabezados de Sección (Activo, Pasivo, Capital) */
-        .section-header {
+        .section-header td {
             background-color: var(--section-bg);
-            color: var(--bg-white);
+            color: var(--bg-white) !important; /* Fuerza el texto a blanco */
             text-transform: uppercase;
             font-weight: 600;
             letter-spacing: 0.8px;
             text-align: center !important;
             padding: 12px;
+            padding-left: 20px !important; /* Resetea el padding de 15% para centrar perfectamente */
         }
 
         /* Filas intercaladas de contenido */
